@@ -2,9 +2,25 @@
 
 #include "shell.h"
 
+typedef struct
+{
+    char line[SHELLW];
+    int isCmd;
+} shell_line;
+
+typedef struct
+{
+    void (*shellf)(int argSize, char *args[]);
+    char *name;
+    char *description;
+    // int builtIn; //flag for declaring if the function is built in.
+} t_shellc;
+
 int cmdIndex(char * buf);
-void processCommands(char * buf, char shellBuffer[][SHELLW], int lines);
+void processCommands(char * buf, shell_line shellBuffer[SHELLH], int lines);
 void loadCommand(void (*f)(), char *name, char *desc);
+void copyOneLineUp(shell_line shellBuffer[SHELLH]);
+void copyCommandDescriptor(char * buf, t_shellc cmd);
 
 static char buffer1[32] = { 0 };
 static char buffer2[32] = { 0 };
@@ -20,43 +36,35 @@ static int cmdCounter = 0;
 int currentShell = 0;
 static int flag = 1;
 
-typedef struct
-{
-    char line[SHELLW];
-    int isCmd;
-} shell_line;
 
-static char shellBuffer1[SHELLH][SHELLW];
-static char shellBuffer2[SHELLH][SHELLW];
 
-// static shell_line shellBuffer1[SHELLH];
-// static shell_line shellBuffer2[SHELLH];
+
+// static char shellBuffer1[SHELLH][SHELLW];
+// static char shellBuffer2[SHELLH][SHELLW];
+
+static shell_line shellBuffer1[SHELLH];
+static shell_line shellBuffer2[SHELLH];
 
 static int buffer1Lines = 0;
 static int buffer2Lines = 0;
 
 static int kb = 0;
 
-typedef struct
-{
-    void (*shellf)(int argSize, char *args[]);
-    char *name;
-    char *description;
-    // int builtIn; //flag for declaring if the function is built in.
-} t_shellc;
+
 
 static t_shellc shellCommands[10] = {{0,0,0}};
 
 
 
 
-void printShell(char * buffer, char shellBuffer[SHELLH][SHELLW]) {
+void printShell(char * buffer, shell_line shellBuffer[SHELLH]) {
     for (int i = 0 ; i < SHELLH ; i++) {
-        if (shellBuffer[i][0] == 0)
+        if (shellBuffer[i].line[0] == 0)
             putChar('\n');
         else {
-            printColor(SHELL_MSG,SHELL_COLOR);
-            print(shellBuffer[i]);
+            if (shellBuffer[i].isCmd)
+                printColor(SHELL_MSG,SHELL_COLOR);
+            print(shellBuffer[i].line);
             putChar('\n');
         }  
     }
@@ -89,15 +97,38 @@ void printDateTime() {
 }
 
 void help() {
-    
+    shell_line * shell = currentShell == 0 ? shellBuffer1 : shellBuffer2;
+    for (int i=0 ; i<cmdCounter ; i++) {
+        copyOneLineUp(currentShell == 0 ? shellBuffer1 : shellBuffer2);
+    }
+    int idx = SHELLH-1;
+    for (int i=0 ; i< cmdCounter && i<SHELLH ; i++) {
+        copyCommandDescriptor(shell[idx].line,shellCommands[i]);
+        shell[idx].isCmd = 0;
+        idx--;
+    }
+}
+
+void copyOneLineUp(shell_line shellBuffer[SHELLH]) {
+    for (int i=0 ; i<SHELLH-1 ; i++) {
+        strcpy(shellBuffer[i].line,shellBuffer[i+1].line);
+        shellBuffer[i].isCmd = shellBuffer[i+1].isCmd;
+    }
+}
+
+void copyCommandDescriptor(char * buf, t_shellc cmd) {
+    int len = strlength(cmd.name);
+    strcpy(&buf[0],cmd.name);
+    strcpy(&buf[len]," - ");
+    strcpy(&buf[len+3],cmd.description);
 }
 
 
 void setupShellCommands() {
     loadCommand(&printHola,"HolaP", "Printea Hola");
-    loadCommand(&multipleWindows,"multiple", "starts multiple window environment");
-    loadCommand(&printDateTime,"datetime", "displays the date and time");
-    loadCommand(&help,"datetime", "displays the date and time");
+    loadCommand(&multipleWindows,"multiple", "Starts multiple window environment");
+    loadCommand(&printDateTime,"datetime", "Displays the date and time");
+    loadCommand(&help,"help", "Shows a list of available commands");
 }
 
 void loadCommand(void (*f)(), char *name, char *desc)
@@ -109,12 +140,14 @@ void loadCommand(void (*f)(), char *name, char *desc)
     cmdCounter++;
 }
 
-void processCommands(char * buf, char shellBuffer[SHELLH][SHELLW], int lines) {
+void processCommands(char * buf, shell_line shellBuffer[SHELLH], int lines) {
     for (int i=1 ; i<SHELLH ; i++) {
-        strcpy(shellBuffer[i-1], shellBuffer[i]);
+        strcpy(shellBuffer[i-1].line, shellBuffer[i].line);
+        shellBuffer[i-1].isCmd =  shellBuffer[i].isCmd;
     }
 
-    strcpy(shellBuffer[SHELLH-1], buf);
+    strcpy(shellBuffer[SHELLH-1].line, buf);
+    shellBuffer[SHELLH-1].isCmd = 1;
 
     int idx = cmdIndex(buf);
     buf[0]=0;
@@ -127,13 +160,13 @@ void processCommands(char * buf, char shellBuffer[SHELLH][SHELLW], int lines) {
 
 void cleanBuffers() {
     for (int i=0 ; i<SHELLH ; i++)
-        shellBuffer1[i][0] = 0;
+        shellBuffer1[i].line[0] = 0;
     for (int i=0 ; i<SHELLH ; i++)
-        shellBuffer2[i][0] = 0;
+        shellBuffer2[i].line[0] = 0;
     consoleMsg1[0] = consoleMsg2[0] = 0;
 }
 
-void manageConsole(char bufferIn[SHELLH][SHELLW], char * buf, int* bufSize, char * consoleMsgC, int bufferLines) {
+void manageConsole(shell_line bufferIn[SHELLH], char * buf, int* bufSize, char * consoleMsgC, int bufferLines) {
         consoleMsg = consoleMsgC;
         console_clear();
         printShell(buf, bufferIn);
@@ -152,8 +185,6 @@ int theShell() {
     set_kb_target(&kb);
     console_clear();
     split_screen(2,0);
-    // print(levels[0]);
-    // while(1);
     while(1) {
         int previous = currentShell;
         set_screen(currentShell);
