@@ -1,0 +1,25 @@
+include ../Makefile.inc
+
+MODULE=0000-sampleCodeModule.bin
+SOURCES=$(wildcard *.c)
+SOURCES_ASM=$(wildcard *.asm)
+OBJECTS=$(SOURCES:.c=.o)
+OBJECTS_ASM=$(SOURCES_ASM:.asm=.o)
+
+all: $(MODULE)
+
+$(MODULE): $(OBJECTS) $(OBJECTS_ASM)
+	$(LD) $(LDFLAGS) -T sampleCodeModule.ld sampleCodeModule.o $(filter-out sampleCodeModule.o,$(OBJECTS)) $(OBJECTS_ASM) -o ../$(MODULE)
+
+	@$(LD) $(LDFLAGS) -I./include -T sampleCodeModule.ld sampleCodeModule.o $(filter-out sampleCodeModule.o,$(OBJECTS)) $(OBJECTS_ASM) --oformat=elf64-x86-64 -o ../0000-sampleCodeModule.elf
+
+%.o : %.asm
+	$(ASM) $(ASMFLAGS) $< -o $@
+
+%.o: %.c
+	$(GCC) $(GCCFLAGS) -I./include -c $< -o $@
+
+clean:
+	rm -rf *.o
+
+.PHONY: all clean print

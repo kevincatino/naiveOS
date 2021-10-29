@@ -1,0 +1,30 @@
+include ../Makefile.inc
+
+MODULE=0000-sampleCodeModule.bin
+
+SOURCES=$(wildcard [^_]*.c)
+SOURCES_ASM=$(wildcard asm/*.asm)
+
+OBJECTS=$(SOURCES:.c=.o)
+OBJECTS_ASM=$(SOURCES_ASM:.asm=.o)
+
+all: $(MODULE)
+
+$(MODULE): $(SOURCES) $(SOURCES_ASM)
+	cd ./asm; make all
+	$(GCC) $(GCCFLAGS) -T sampleCodeModule.ld _loader.c $(SOURCES) ./asm/*.o -o ../$(MODULE)
+	$(GCC) $(GCCFLAGS) -I./include -T sampleCodeModule.ld -Wl,--oformat=elf64-x86-64 _loader.c $(SOURCES) ./asm/*.o -o ../0000-sampleCodeModule.elf
+
+%.o: %.c
+	$(GCC) $(GCCFLAGS) -I./include -c $< -o $@
+
+%.o: %.asm
+	$(ASM) $(ASMFLAGS) $< -o $@
+
+clean:
+	cd ./asm; make clean
+	rm -rf asm/*.o *.o *.bin
+	rm -rf $(OBJECTS)
+	rm =rf $(OBJECTS_ASM)
+
+.PHONY: all clean print
