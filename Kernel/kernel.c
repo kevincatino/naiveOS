@@ -65,17 +65,9 @@ int main()
 	//while (1);
 	ncInitVideoConsole();
 	load_idt();
+	exceptionHandlerRebootPoint((uint64_t)sampleCodeModuleAddress, getStack());
 
 	((EntryPoint)sampleCodeModuleAddress)();
 
-	// ncNewline();
-	// ncPrint("  Sample data module at 0x");
-	// ncPrintHex((uint64_t)sampleDataModuleAddress);
-	// ncNewline();
-	// ncPrint("  Sample data module contents: ");
-	// ncPrint((char*)sampleDataModuleAddress);
-	// ncNewline();
-
-	ncPrint("[Finished]");
 	return 0;
 }

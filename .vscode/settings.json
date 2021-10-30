@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "stdinout.h": "c"
+        "stdinout.h": "c",
+        "naiveconsole.h": "c"
     }
 }

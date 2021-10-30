@@ -23,6 +23,8 @@ extern void get_time(char * buf);
 extern long timer_tick(void (*f)());
 extern void set_kb_target(int * var);
 extern void get_date(char * buf);
+extern void get_regs(char * buf);
+extern void get_memory(unsigned int * p);
 
 
     

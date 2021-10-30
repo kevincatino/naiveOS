@@ -1,5 +1,7 @@
 #include <lib.h>
 
+extern uint64_t* inforeg();
+
 void * memset(void * destination, int32_t c, uint64_t length)
 {
 	uint8_t chr = (uint8_t)c;

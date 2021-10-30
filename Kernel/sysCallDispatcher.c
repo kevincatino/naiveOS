@@ -20,8 +20,11 @@ static int getChar(unsigned int ascii);
 static void getTime(char * buf);
 static long timerTick(void (*f)());
 static void getDate(char * buf);
+static void getRegs(char * buf);
+// 32 bytes de vuelco de memoria en p = 4 ints
+static void getMemory(uint32_t * p);
 
-static SysCallR sysCalls[255] = {(SysCallR) &read, (SysCallR) &write, (SysCallR) &clear, (SysCallR) &splitScreen, (SysCallR) &changeScreen, (SysCallR)&getChar,(SysCallR)&ncClearLine,(SysCallR)&getTime, (SysCallR)&timerTick, (SysCallR)&set_kb_target, (SysCallR)&getDate}; // = {(SysCall) &read, (SysCall) &write, ...} //cpuid, reg_info, mem_dump, clock
+static SysCallR sysCalls[255] = {(SysCallR) &read, (SysCallR) &write, (SysCallR) &clear, (SysCallR) &splitScreen, (SysCallR) &changeScreen, (SysCallR)&getChar,(SysCallR)&ncClearLine,(SysCallR)&getTime, (SysCallR)&timerTick, (SysCallR)&set_kb_target, (SysCallR)&getDate, (SysCallR) &getRegs, (SysCallR) &getMemory}; // = {(SysCall) &read, (SysCall) &write, ...} //cpuid, reg_info, mem_dump, clock
 
 uint64_t sysCallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t rax) {
     SysCallR sysCall = sysCalls[rax]; // sysCalls es un arreglo de punteros a funcion, me guardo la funcion que corresponde con el valor de rax
@@ -214,4 +217,12 @@ static void getDate(char * buf) {
     int y = year();
     numToStr(y,&buf[6]);
     buf[8] = 0;
+}
+
+static void getRegs(char * buf) {
+    
+}
+
+static void getMemory(uint32_t * p) {
+
 }

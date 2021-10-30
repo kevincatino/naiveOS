@@ -19,6 +19,10 @@ GLOBAL set_kb_target
 
 GLOBAL get_date
 
+GLOBAL get_regs
+
+GLOBAL get_memory
+
 %macro pushStateSysCall 0
 	push rbx
 	push rcx
@@ -185,3 +189,10 @@ set_kb_target:
 
 get_date:
     sysCall 10
+
+
+get_regs:
+    sysCall 11
+
+get_memory:
+    sysCall 11

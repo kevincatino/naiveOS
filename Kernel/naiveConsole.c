@@ -198,6 +198,16 @@ void ncPrint(const char * string)
 		
 }
 
+void ncPrintColor(const char * string, char color)
+{
+	int i;
+
+	for (i = 0; string[i] != 0; i++) {
+		ncPrintChar(string[i],color);
+	}
+		
+}
+
 void ncPrintChar(char character, char color)
 {	if (!advancePtr())
 		return;

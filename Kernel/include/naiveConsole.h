@@ -5,6 +5,7 @@
 
 
 void ncPrint(const char * string);
+void ncPrintColor(const char * string, char color);
 void ncPrintChar(char character, char color);
 void ncNewline();
 void ncDelete();

@@ -7,6 +7,10 @@ GLOBAL getKbCode
 
 GLOBAL keyboardActivated
 
+GLOBAL inforeg
+
+GLOBAL getStack
+
 section .text
 
 %macro pushState 0
@@ -42,6 +46,8 @@ section .text
 	pop rcx
 	pop rbx
 %endmacro
+
+
 	
 cpuVendor:
 	push rbp
@@ -115,4 +121,33 @@ getRTC:
 	mov rsp, rbp
     pop rbp
     ret
+
+getStack:
+	mov rax, rsp
+	ret
+
+infoReg:
+	pushState
+	mov [regs], rax
+	mov [regs+4], rbx
+	mov [regs+4*2], rcx
+	mov [regs+4*3], rdx
+	mov [regs+4*4], rbp
+	mov [regs+4*5], rdi
+	mov [regs+4*6], rsi
+	mov [regs+4*7], r8
+	mov [regs+4*8], r9
+	mov [regs+4*9], r10
+	mov [regs+4*10], r11
+	mov [regs+4*11], r12
+	mov [regs+4*12], r13
+	mov [regs+4*13], r14
+	mov [regs+4*14], r15
+	popState
+	mov rax, regs
+	ret
+
+section .bss
+regs resq 15
+
 
