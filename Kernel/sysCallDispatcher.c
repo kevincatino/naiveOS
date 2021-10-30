@@ -3,14 +3,22 @@
 #include "time.h"
 #include <naiveConsole.h>
 #include <keyboard.h>
+#include <lib.h>
 
 #define STDIN 0
 #define STDOUT 1
 #define STDERR 2
 #define RED 4
+// #define REG_COUNT 17
+
+// static char registers[REG_COUNT][20] = {
+// 	"RAX: 0x", "RBX: 0x", "RCX: 0x", "RDX: 0x", "RBP: 0x", "RDI: 0x", "RSI: 0x",
+// 	"R8: 0x", "R9: 0x", "R10: 0x", "R11: 0x", "R12: 0x", "R13: 0x", "R14: 0x",
+// 	"R15: 0x","RSP: 0x","RIP: 0x"};
 
 typedef uint64_t (*SysCallR)(uint64_t, uint64_t, uint64_t, uint64_t); // defino un puntero a funcion SysCallR
-
+// void updateRegs(uint64_t* regs);
+// void getRegs(char ** buf);
 static long read(unsigned int fd, char * buf, uint64_t count); //deberia ser lo mismo que size_t
 static long write(unsigned int fd,char * buf, uint64_t count, char color);
 static void clear();
@@ -20,11 +28,13 @@ static int getChar(unsigned int ascii);
 static void getTime(char * buf);
 static long timerTick(void (*f)());
 static void getDate(char * buf);
-static void getRegs(char * buf);
-// 32 bytes de vuelco de memoria en p = 4 ints
-static void getMemory(uint32_t * p);
 
-static SysCallR sysCalls[255] = {(SysCallR) &read, (SysCallR) &write, (SysCallR) &clear, (SysCallR) &splitScreen, (SysCallR) &changeScreen, (SysCallR)&getChar,(SysCallR)&ncClearLine,(SysCallR)&getTime, (SysCallR)&timerTick, (SysCallR)&set_kb_target, (SysCallR)&getDate, (SysCallR) &getRegs, (SysCallR) &getMemory}; // = {(SysCall) &read, (SysCall) &write, ...} //cpuid, reg_info, mem_dump, clock
+// 32 bytes de vuelco de memoria en p = 4 ints
+// static void getMemory(uint32_t * p);
+
+// static uint64_t * regInfoPTR;
+
+static SysCallR sysCalls[255] = {(SysCallR) &read, (SysCallR) &write, (SysCallR) &clear, (SysCallR) &splitScreen, (SysCallR) &changeScreen, (SysCallR)&getChar,(SysCallR)&ncClearLine,(SysCallR)&getTime, (SysCallR)&timerTick, (SysCallR)&set_kb_target, (SysCallR)&getDate};//, (SysCallR) &infoReg, (SysCallR) &getMemory}; // = {(SysCall) &read, (SysCall) &write, ...} //cpuid, reg_info, mem_dump, clock
 
 uint64_t sysCallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t rax) {
     SysCallR sysCall = sysCalls[rax]; // sysCalls es un arreglo de punteros a funcion, me guardo la funcion que corresponde con el valor de rax
@@ -219,10 +229,20 @@ static void getDate(char * buf) {
     buf[8] = 0;
 }
 
-static void getRegs(char * buf) {
-    
-}
+// void updateRegs(uint64_t* regs) {
+//     // for (int i=0 ; i<REG_COUNT ; i++) {
+//     //     char * ptr = registers[i][3] == ':' ? &registers[i][7] : &registers[i][6];
+//     //     numToStr(regs[i],ptr);
+//     // }
+        
+// }
 
-static void getMemory(uint32_t * p) {
+// void getRegs(char ** buf) {
+//         // for (int i=0 ; i<REG_COUNT ; i++) {
+//         //     buf[i] = registers[i];
+//         // }
+// }
 
-}
+// static void getMemory(uint32_t * p) {
+
+// }

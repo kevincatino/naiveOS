@@ -19,6 +19,9 @@ int keyboardActivated();
 
 int getKbCode();
 
+// void infoReg(char ** buf);
+// uint64_t getStack();
+
 // char* itoa(int num, char* str, int base);
 
 #endif

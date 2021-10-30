@@ -182,9 +182,12 @@ void manageConsole(shell_line bufferIn[SHELLH], char * buf, int* bufSize, char *
 int theShell() {
     cleanBuffers();
     setupShellCommands();
-    set_kb_target(&kb);
+    // set_kb_target(&kb);
     console_clear();
     split_screen(2,0);
+    // char * regs[17];
+    // get_regs(regs);
+    // while(1);
     while(1) {
         int previous = currentShell;
         set_screen(currentShell);

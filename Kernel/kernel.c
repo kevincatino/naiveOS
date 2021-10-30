@@ -7,6 +7,7 @@
 #include <keyboard.h>
 #include <clock.h>
 #include <interrupts.h>
+#include <exceptions.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -40,9 +41,7 @@ void * getStackBase()
 
 void * initializeKernelBinary()
 {
-	ncInitVideoConsole();
 
-	ncNewline();
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
 		sampleDataModuleAddress
@@ -63,9 +62,9 @@ void * initializeKernelBinary()
 int main()
 {		
 	//while (1);
-	ncInitVideoConsole();
 	load_idt();
-	exceptionHandlerRebootPoint((uint64_t)sampleCodeModuleAddress, getStack());
+	ncInitVideoConsole();
+	//exceptionHandlerRebootPoint((uint64_t)sampleCodeModuleAddress, getStack());
 
 	((EntryPoint)sampleCodeModuleAddress)();
 
