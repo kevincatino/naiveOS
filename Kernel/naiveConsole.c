@@ -33,14 +33,14 @@ static uint32_t counterMax = 0;
 #define NOT_INITIALIZED 1
 
 void ncInitVideoConsole() {
-	shift = 0;
-	width = WIDTH;
-	height = HEIGHT;
-	video = VIDEO_PTR;
-	currentVideo = video;
-	counterMax = width*height;
-	position =0;
-	twoScreensAux[0].ptr = twoScreensAux[1].ptr = fourScreensAux[0].ptr = fourScreensAux[1].ptr = fourScreensAux[2].ptr = fourScreensAux[3].ptr = 0;
+	// shift = 0;
+	// width = WIDTH;
+	// height = HEIGHT;
+	// video = VIDEO_PTR;
+	// currentVideo = video;
+	// counterMax = width*height;
+	// position =0;
+	// twoScreensAux[0].ptr = twoScreensAux[1].ptr = fourScreensAux[0].ptr = fourScreensAux[1].ptr = fourScreensAux[2].ptr = fourScreensAux[3].ptr = NOT_INITIALIZED;
 	ncSplitConsole(1,0);
 }
 
