@@ -32,14 +32,6 @@ static uint32_t counterMax = 0;
 
 #define NOT_INITIALIZED 1
 
-// uint8_t pointer() {
-// 	return currentVideo;
-// }
-
-// void setPointer(uint8_t ptr) {
-// 	currentVideo = ptr;
-// }
-
 void ncInitVideoConsole() {
 	shift = 0;
 	width = WIDTH;
@@ -48,8 +40,8 @@ void ncInitVideoConsole() {
 	currentVideo = video;
 	counterMax = width*height;
 	position =0;
-	// twoScreensAux[0].ptr = twoScreensAux[1].ptr = fourScreensAux[0].ptr = fourScreensAux[1].ptr = fourScreensAux[2].ptr = fourScreensAux[3].ptr = 0;
-	//ncSplitConsole(1,0);
+	twoScreensAux[0].ptr = twoScreensAux[1].ptr = fourScreensAux[0].ptr = fourScreensAux[1].ptr = fourScreensAux[2].ptr = fourScreensAux[3].ptr = 0;
+	ncSplitConsole(1,0);
 }
 
 
