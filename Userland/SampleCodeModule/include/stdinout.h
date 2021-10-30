@@ -52,4 +52,5 @@ char intToChar(unsigned int num);
 int split(char * buf,char c,char * target[]);
 long secondsElapsed();
 int ticks();
+int numToStr(int num, char* str, int base);
 #endif

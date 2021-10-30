@@ -81,9 +81,9 @@ int ncSplitConsole(int screenQty, int screenNum) {
 	if (screenQty == 4) {
 		ptr = VIDEO_PTR + 2 + (H_WIDTH1)*2;
 		for(int i=0 ; i<HEIGHT ; i++) {
-		(*ptr) = '|';
-		ptr+=WIDTH*2;
-	}
+			(*ptr) = '|';
+			ptr+=WIDTH*2;
+		}
 	}
 	ptr = VIDEO_PTR + 2 + WIDTH*2*H_HEIGHT;
 	for(int i=0 ; i<80 ; i++) {

@@ -9,12 +9,12 @@
 #define STDOUT 1
 #define STDERR 2
 #define RED 4
-// #define REG_COUNT 17
+#define REG_COUNT 17
 
-// static char registers[REG_COUNT][20] = {
-// 	"RAX: 0x", "RBX: 0x", "RCX: 0x", "RDX: 0x", "RBP: 0x", "RDI: 0x", "RSI: 0x",
-// 	"R8: 0x", "R9: 0x", "R10: 0x", "R11: 0x", "R12: 0x", "R13: 0x", "R14: 0x",
-// 	"R15: 0x","RSP: 0x","RIP: 0x"};
+static char registers[REG_COUNT][20] = {
+	"RAX: 0x", "RBX: 0x", "RCX: 0x", "RDX: 0x", "RBP: 0x", "RDI: 0x", "RSI: 0x",
+	"R8: 0x", "R9: 0x", "R10: 0x", "R11: 0x", "R12: 0x", "R13: 0x", "R14: 0x",
+	"R15: 0x","RSP: 0x","RIP: 0x"};
 
 typedef uint64_t (*SysCallR)(uint64_t, uint64_t, uint64_t, uint64_t); // defino un puntero a funcion SysCallR
 // void updateRegs(uint64_t* regs);
@@ -230,10 +230,10 @@ static void getDate(char * buf) {
 }
 
 // void updateRegs(uint64_t* regs) {
-//     // for (int i=0 ; i<REG_COUNT ; i++) {
-//     //     char * ptr = registers[i][3] == ':' ? &registers[i][7] : &registers[i][6];
-//     //     numToStr(regs[i],ptr);
-//     // }
+//     for (int i=0 ; i<REG_COUNT ; i++) {
+//         char * ptr = registers[i][3] == ':' ? &registers[i][7] : &registers[i][6];
+//         numToStr(regs[i],ptr);
+//     }
         
 // }
 

@@ -7,6 +7,8 @@ static int stopped;;
 static int started;;
 static int accumTicks;
 
+
+
 void initStopWatch() {
     tickss = startTicks = lastTick = stopped = started = accumTicks = 0;
 }
@@ -59,10 +61,10 @@ int stopWatchChanged() {
 static void twoDigitsNumToStr(int num, char * buf) {
     if (num<10) {
         buf[0] = '0';
-        itoa(num, &buf[1],10);
+        numToStr(num, &buf[1],10);
     }
     else {
-        itoa(num, &buf[0],10);
+        numToStr(num, &buf[0],10);
     }  
 }
 

@@ -90,7 +90,7 @@ void reverse(char str[], int length)
 }
  
 // Implementation of itoa()
-char* itoa(int num, char* str, int base)
+int numToStr(int num, char* str, int base)
 {
     int i = 0;
     int isNegative = 0;
@@ -99,8 +99,7 @@ char* itoa(int num, char* str, int base)
     if (num == 0)
     {
         str[i++] = '0';
-        str[i] = '\0';
-        return str;
+        return 1;
     }
  
     // In standard itoa(), negative numbers are handled only with
@@ -123,11 +122,15 @@ char* itoa(int num, char* str, int base)
     if (isNegative)
         str[i++] = '-';
  
-    str[i] = '\0'; // Append string terminator
- 
     // Reverse the string
     reverse(str, i);
  
+    return i;
+}
+
+char * itoa(int num, char* str, int base) {
+    int len = numToStr(num, str, base);
+    str[len] = 0;
     return str;
 }
 
