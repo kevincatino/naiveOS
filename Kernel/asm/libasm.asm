@@ -10,9 +10,9 @@ GLOBAL keyboardActivated
 
 ; GLOBAL getStack
 
-; EXTERN updateRegs
+EXTERN updateRegs
 
-; EXTERN getRegs
+EXTERN getRegs
 
 section .text
 
@@ -165,37 +165,37 @@ getRTC:
 ; 	mov rax, rsp
 ; 	ret
 
-; GLOBAL infoReg
+GLOBAL infoReg
 
-; infoReg:
-; 	pushState
-; 	; mov [regs], rax
-; 	; mov [regs+8], rbx
-; 	; mov [regs+8*2], rcx
-; 	; mov [regs+8*3], rdx
-; 	; mov [regs+8*4], rbp
-; 	; mov [regs+8*5], rdi
-; 	; mov [regs+8*6], rsi
-; 	; mov [regs+8*7], r8
-; 	; mov [regs+8*8], r9
-; 	; mov [regs+8*9], r10
-; 	; mov [regs+8*10], r11
-; 	; mov [regs+8*11], r12
-; 	; mov [regs+8*12], r13
-; 	; mov [regs+8*13], r14
-; 	; mov [regs+8*14], r15
-; 	; mov [regs+8*15], rsp
-; 	; mov [regs+8*16], rsp ;rip
-; 	mov rsi, rdi
-; 	mov rdi, rsp
-; 	call updateRegs
-; 	mov rdi, rsi
-; 	call getRegs
-; 	popState
-; 	ret
+infoReg:
+	pushState
+	; mov [regs], rax
+	; mov [regs+8], rbx
+	; mov [regs+8*2], rcx
+	; mov [regs+8*3], rdx
+	; mov [regs+8*4], rbp
+	; mov [regs+8*5], rdi
+	; mov [regs+8*6], rsi
+	; mov [regs+8*7], r8
+	; mov [regs+8*8], r9
+	; mov [regs+8*9], r10
+	; mov [regs+8*10], r11
+	; mov [regs+8*11], r12
+	; mov [regs+8*12], r13
+	; mov [regs+8*13], r14
+	; mov [regs+8*14], r15
+	; mov [regs+8*15], rsp
+	; mov [regs+8*16], rsp ;rip
+	mov [ptr], rdi
+	mov rdi, rsp
+	call updateRegs
+	mov rdi, [ptr]
+	call getRegs
+	popState
+	ret
 
-; section .bss
-; ptr resq 1
-; regs resq 17
+section .bss
+ptr resq 1
+regs resq 17
 
 

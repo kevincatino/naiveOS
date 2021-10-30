@@ -15,7 +15,7 @@ typedef struct {
 	uint8_t * ptr;
 } VideoPTR;
 
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
+// static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 static char buffer[64] = { '0' };
 static uint8_t * video = VIDEO_PTR;
@@ -272,7 +272,7 @@ void ncClear()
 	currentVideo = video;
 }
 
-static uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
+uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 {
 	char *p = buffer;
 	char *p1, *p2;

@@ -45,12 +45,13 @@ int getChar();
 int putChar(char c);
 int putCharColor(char c, char color);
 int strcmp(char * s1, char * s2);
-char* strcpy(char* destination, const char* source);
+int strcpy(char* destination, const char* source);
 int getRealChar();
 int atoi(char * s);
 char intToChar(unsigned int num);
 int split(char * buf,char c,char * target[]);
 long secondsElapsed();
 int ticks();
+int strcat(char * target, char * source);
 int numToStr(int num, char* str, int base);
 #endif

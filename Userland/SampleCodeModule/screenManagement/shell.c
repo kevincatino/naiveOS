@@ -109,6 +109,26 @@ void help() {
     }
 }
 
+void inforeg() {
+    shell_line * shell = currentShell == 0 ? shellBuffer1 : shellBuffer2;
+    char * regs[17] = {0};
+        get_regs(regs);
+        for (int i=0 ; i<5 ; i++) {
+        copyOneLineUp(currentShell == 0 ? shellBuffer1 : shellBuffer2);
+    }
+        int idx = SHELLH-1, j=0;
+    for (int i=0 ; i< 5 ; i++) {
+        shell[idx].line[0] = 0;
+        for (int k = 0 ; k<4 && j<17 ; k++) {
+                int len = strcat(shell[idx].line,regs[j++]);
+                shell[idx].line[len] = ' ';
+                shell[idx].line[len+1] = 0;
+        }
+        shell[idx].isCmd = 0;
+        idx--;
+    }
+}
+
 void copyOneLineUp(shell_line shellBuffer[SHELLH]) {
     for (int i=0 ; i<SHELLH-1 ; i++) {
         strcpy(shellBuffer[i].line,shellBuffer[i+1].line);
@@ -129,6 +149,7 @@ void setupShellCommands() {
     loadCommand(&multipleWindows,"multiple", "Starts multiple window environment");
     loadCommand(&printDateTime,"datetime", "Displays the date and time");
     loadCommand(&help,"help", "Shows a list of available commands");
+    loadCommand(&inforeg,"inforeg", "Shows the value of all registers");
 }
 
 void loadCommand(void (*f)(), char *name, char *desc)
@@ -185,9 +206,6 @@ int theShell() {
     // set_kb_target(&kb);
     console_clear();
     split_screen(2,0);
-    // char * regs[17];
-    // get_regs(regs);
-    // while(1);
     while(1) {
         int previous = currentShell;
         set_screen(currentShell);

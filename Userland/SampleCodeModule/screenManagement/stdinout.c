@@ -35,6 +35,27 @@ int strlength(char * string) {
 	return i;
 }
 
+int strcat(char * target, char * source) {
+   int c, d;
+   
+   c = 0;
+ 
+   while (target[c] != '\0') {
+      c++;      
+   }
+ 
+   d = 0;
+ 
+   while (source[d] != '\0') {
+      target[c] = source[d];
+      d++;
+      c++;    
+   }
+ 
+   target[c] = '\0';
+   return c;
+}
+
 // ----------------------------------------------------------
 // numToStr: Me convierte de numero a String 
 // 			  (admite negativos)
@@ -302,7 +323,7 @@ int strcmp(char *X, char *Y)
 }
 
 
-char* strcpy(char* destination, const char* source)
+int strcpy(char* destination, const char* source)
 {
     // return if no memory is allocated to the destination
     if (destination == NULL) {
@@ -320,7 +341,7 @@ char* strcpy(char* destination, const char* source)
  
     *destination = '\0';
  
-    return ptr;
+    return source;
 }
 
 
