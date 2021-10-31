@@ -238,7 +238,7 @@ void updateRegs(uint64_t* regs) {
         ptr[len] = 0;
     }
     char * sp = &registers[REG_COUNT-1][7];
-    int len = uintToBase(regs + REG_COUNT*4 + 1, sp, 16); // considero los push de los registros y el push inicial de la direccion de retorno al hacer el llamado a la funcion
+    int len = uintToBase(regs + REG_COUNT*4*3 + 3, sp, 16); // considero los push de los registros y el push inicial de la direccion de retorno al hacer el llamado a la funcion (3 llamadas antes de llegar a este punto)
     sp[len] = 0;
 
         

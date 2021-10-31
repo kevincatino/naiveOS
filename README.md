@@ -10,7 +10,7 @@ La shell admite los siguientes comandos:
 - **multiple:** despliega el *modo de ventanas múltiples*. Se desarrolla a continuación.
 
 ## Modo de ventanas múltiples
-Se divide la pantalla en 4 partes iguales con diferentes aplicaciones. En las ventanas que permiten una entrada por teclado, se puede navegar entre ellas a través de las teclas &#8592;, &#8593;, &#8594; y &#8595;.
+Se divide la pantalla en 4 partes iguales con diferentes aplicaciones. En las ventanas que permiten una entrada por teclado, se puede navegar entre ellas a través de las teclas &#8592;, &#8593;, &#8594; y &#8595;. Si se presiona la tecla *ESC* estando en este modo, entonces se puede volver al modo de Shell.
 ### Sudoku (1)
 Permite jugar una partida de Sudoku a través del teclado. Las entradas consisten de la letra de la fila, el número de columna, y el número a ingresar, todos separados por espacio (por ej: una entrada podría ser *'a 2 1'*). Las casillas preinicializadas no permiten modificación, y en caso de querer llenar una casilla con un número que no respeta las reglas del Sudoku, se muestra un mensaje de error. Los comandos que permite la entrada son:
 -  **solve:** resuelve el sudoku por el usuario.

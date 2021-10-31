@@ -10,10 +10,9 @@ typedef struct
 
 typedef struct
 {
-    void (*shellf)(int argSize, char *args[]);
+    void (*shellf)(int arg1, int arg2);
     char *name;
     char *description;
-    // int builtIn; //flag for declaring if the function is built in.
 } t_shellc;
 
 int cmdIndex(char * buf);
