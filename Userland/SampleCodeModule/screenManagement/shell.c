@@ -83,11 +83,6 @@ void updateConsoleMsg(char * s) {
 }
 
 
-
-void printHola() {
-    updateConsoleMsg("Hola");
-}
-
 void printDateTime() {
     char buf[20] = {0};
     get_date(buf);
@@ -219,7 +214,6 @@ void copyLinesToShellOutput(char lines[][SHELLW], int qty) {
 
 
 void setupShellCommands() {
-    loadCommand(&printHola,"HolaP", "Printea Hola");
     loadCommand(&multipleWindowsDispatcher,"multiple", "Starts multiple window environment");
     loadCommand(&printDateTime,"datetime", "Displays the date and time");
     loadCommand(&help,"help", "Shows a list of available commands");

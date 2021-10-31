@@ -66,7 +66,8 @@ void multipleWindows() {
                         return;
                     break;
                     default:
-                        writeBuf(window);
+                        if (window != 1)
+                            writeBuf(window);
                 }
             }
             kbPress = 0;

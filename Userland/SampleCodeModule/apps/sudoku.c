@@ -54,15 +54,13 @@ void moveCursor(int x, int y) {
 
 int possibleMove(int row, int col, int num) {
 
-    for (int x = 0; x <= 8; x++)
-        if (board[row][x] == num)
+    for (int i = 0; i <= 8; i++)
+        if (board[row][i] == num)
             return 0;
- 
 
-    for (int x = 0; x <= 8; x++)
-        if (board[x][col] == num)
+    for (int i = 0; i <= 8; i++)
+        if (board[i][col] == num)
             return 0;
- 
 
     int startRow = row - row % 3,
             startCol = col - col % 3;
@@ -90,13 +88,10 @@ int solve(int row, int col)
     if (board[row][col] > 0)
         return solve(row, col + 1);
  
-    for (int num = 1; num <= LENGTH; num++)
-    {
-         
-        if (possibleMove(row, col, num))
-        {
-            board[row][col] = num;
-           
+    for (int num = 1; num <= LENGTH; num++) {
+
+        if (possibleMove(row, col, num)) {
+            board[row][col] = num; 
    
             if (solve(row, col + 1))
                 return 1;
@@ -105,6 +100,51 @@ int solve(int row, int col)
         board[row][col] = 0;
     }
     return 0;
+}
+
+static void cleanArray(int checked[9]) {
+    for (int i=0 ; i<9 ; i++)
+        checked[i] = 0;
+}
+
+static int checkSubMatrix(int row, int col) {
+    int checked[9] = {0};
+     for (int i=row ; i<=row+3 ; i++) {
+            for (int j = col ; j<col+3 ; j++) {
+                if (checked[board[i][j]])
+                    return 0;
+                checked[board[i][j]] = 1;
+            }
+        }
+    return 1;
+}
+
+int isSolved() { 
+    int checked[9] = {0};
+    for (int i=0 ; i<=8 ; i++) {
+        for (int j = 0; j <= 8; j++) {
+            if (checked[board[i][j]])
+                return 0;
+            checked[board[i][j]] = 1;
+        }
+    }
+
+    cleanArray(checked); 
+
+        for (int i=0 ; i<=8 ; i++) {
+        for (int j = 0; j <= 8; j++) {
+            if (checked[board[j][i]])
+                return 0;
+            checked[board[j][i]] = 1;
+        }
+    }
+    for (int i=0 ; i<9 ; i+=3) {
+        for (int j=0 ; j<9 ; j+=3)
+            checkSubMatrix(i,j);
+    }
+       
+
+
 }
 
 void solveSudoku() {
@@ -161,6 +201,8 @@ int sudokuInput(char a, int b, int value) {
 
     if (possibleMove(x,y,value)) {
         board[x][y] = value;
+        if (isSolved())
+            return FINISHED_SUDOKU;
         return 0;
     }
     board[x][y] = aux;
