@@ -152,6 +152,8 @@ void printHangman() {
 
     if (wrongLetters == MAX_FAILS)
         color = RED;
+    else if (gameEnded)
+        color = GREEN;
 
     printColor(levels[wrongLetters],color);
     putChar('\n');

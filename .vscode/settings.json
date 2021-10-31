@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "stdinout.h": "c",
-        "naiveconsole.h": "c"
+        "naiveconsole.h": "c",
+        "keyboard.h": "c",
+        "lib.h": "c"
     }
 }

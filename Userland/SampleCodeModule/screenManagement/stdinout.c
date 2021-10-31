@@ -200,6 +200,44 @@ int atoi(char * s) {
 	return strToInt(s,strlength(s));
 }
 
+ 
+int get_digit(char c, int digits_in_base)
+{
+    int max_digit;
+    if (digits_in_base <= 10)
+        max_digit = digits_in_base + '0';
+    else
+        max_digit = digits_in_base - 10 + 'a';
+ 
+    if (c >= '0' && c <= '9' && c <= max_digit)
+        return (c - '0');
+    else if (c >= 'a' && c <= 'f' && c <= max_digit)
+        return (10 + c - 'a');
+    else
+        return (-1);
+}
+ 
+int atoi_base(const char *str, int str_base)
+{
+    int result = 0;
+    int sign = 1;
+    int digit;
+ 
+    if (*str == '-')
+    {
+        sign = -1;
+        ++str;
+    }
+ 
+    while ((digit = get_digit(toLower(*str), str_base)) >= 0)
+    {
+        result = result * str_base;
+        result = result + (digit * sign);
+        ++str;
+    }
+    return (result);
+}
+
 // ----------------------------------------------------------
 // isDigit: Me dice si es digito o no
 // ----------------------------------------------------------
@@ -372,13 +410,15 @@ char intToChar(unsigned int num) {
 }
 
 int split(char * buf,char c, char * target[]) {
-	int j=0;
+	int j=0, flag = 1;
 	for (int i=0 ; buf[i] ; i++) {
 		if (buf[i]==c) {
 			buf[i] = 0;
+            flag = 1;
 		}
-		else {
+		else if (flag){
 			target[j++] = &buf[i];
+            flag = 0;
 		}
 	}
 	return j;

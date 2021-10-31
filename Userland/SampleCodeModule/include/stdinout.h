@@ -48,6 +48,7 @@ int strcmp(char * s1, char * s2);
 int strcpy(char* destination, const char* source);
 int getRealChar();
 int atoi(char * s);
+int atoi_base(const char *str, int str_base);
 char intToChar(unsigned int num);
 int split(char * buf,char c,char * target[]);
 long secondsElapsed();

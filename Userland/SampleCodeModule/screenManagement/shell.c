@@ -21,6 +21,7 @@ void processCommands(char * buf, shell_line shellBuffer[SHELLH], int lines);
 void loadCommand(void (*f)(), char *name, char *desc);
 void copyOneLineUp(shell_line shellBuffer[SHELLH]);
 void copyCommandDescriptor(char * buf, t_shellc cmd);
+void copyLinesToShellOutput(char lines[][SHELLW], int qty);
 
 static char buffer1[32] = { 0 };
 static char buffer2[32] = { 0 };
@@ -101,32 +102,91 @@ void help() {
     for (int i=0 ; i<cmdCounter ; i++) {
         copyOneLineUp(currentShell == 0 ? shellBuffer1 : shellBuffer2);
     }
-    int idx = SHELLH-1;
-    for (int i=0 ; i< cmdCounter && i<SHELLH ; i++) {
-        copyCommandDescriptor(shell[idx].line,shellCommands[i]);
-        shell[idx].isCmd = 0;
-        idx--;
+    char lines [cmdCounter][SHELLW];
+    // int idx = SHELLH-1;
+    // for (int i=0 ; i< cmdCounter && i<SHELLH ; i++) {
+    //     copyCommandDescriptor(shell[idx].line,shellCommands[i]);
+    //     shell[idx].isCmd = 0;
+    //     idx--;
+    // }
+    for (int i=0 ; i<cmdCounter ; i++) {
+        copyCommandDescriptor(lines[i],shellCommands[i]);
     }
+    copyLinesToShellOutput(lines, cmdCounter);
 }
 
 void inforeg() {
-    shell_line * shell = currentShell == 0 ? shellBuffer1 : shellBuffer2;
+    // shell_line * shell = currentShell == 0 ? shellBuffer1 : shellBuffer2;
+    // char * regs[17] = {0};
+    //     get_regs(regs);
+    //     for (int i=0 ; i<5 ; i++) {
+    //     copyOneLineUp(currentShell == 0 ? shellBuffer1 : shellBuffer2);
+    // }
+    //     int idx = SHELLH-1, j=0;
+    // for (int i=0 ; i< 5 ; i++) {
+    //     shell[idx].line[0] = 0;
+    //     for (int k = 0 ; k<4 && j<17 ; k++) {
+    //             int len = strcat(shell[idx].line,regs[j++]);
+    //             shell[idx].line[len] = ' ';
+    //             shell[idx].line[len+1] = 0;
+    //     }
+    //     shell[idx].isCmd = 0;
+    //     idx--;
+    // }
+    int j=0;
     char * regs[17] = {0};
-        get_regs(regs);
-        for (int i=0 ; i<5 ; i++) {
-        copyOneLineUp(currentShell == 0 ? shellBuffer1 : shellBuffer2);
-    }
-        int idx = SHELLH-1, j=0;
-    for (int i=0 ; i< 5 ; i++) {
-        shell[idx].line[0] = 0;
+    get_regs(regs);
+    char lines[5][SHELLW];
+        for (int i=0 ; i< 5 ; i++) {
+        lines[i][0] = 0;
         for (int k = 0 ; k<4 && j<17 ; k++) {
-                int len = strcat(shell[idx].line,regs[j++]);
-                shell[idx].line[len] = ' ';
-                shell[idx].line[len+1] = 0;
+                int len = strcat(lines[i],regs[j++]);
+                lines[i][len] = ' ';
+                lines[i][len+1] = 0;
         }
-        shell[idx].isCmd = 0;
-        idx--;
     }
+    copyLinesToShellOutput(lines, 5);
+
+}
+
+// Acepta valores decimales y tambien hexadecimales con el prefijo '0x'
+void printmem(char * dirString) {
+    if (!dirString) {
+        updateConsoleMsg("address argument needed");
+        return;
+    }
+    char * splitted[2] = {0};
+    uint8_t * ptr;
+    split(dirString,'x',splitted);
+    if (splitted[1]) {
+            char * hexaAddress = splitted[1];
+         ptr = atoi_base(hexaAddress,16);
+    }
+    else {
+        ptr = atoi_base(splitted[0],10);
+    }
+    char output[2][SHELLW];
+    char aux[10] = {"0x"};
+    int idx = 0;
+    output[0][0] = output[1][0] = 0;
+    for (int i=0 ; i<32 ; i++) {
+        if (i == 16)
+            idx = 1;
+        itoa(ptr[i],aux+2,16);
+        int len = strcat(output[idx],aux);
+        if (i != 15 && i != 31) {
+            output[idx][len] = ' ';
+            output[idx][len+1] = 0;
+        }
+    }
+    copyLinesToShellOutput(output, 2);
+}
+
+void multipleWindowsDispatcher() {
+    multipleWindows();
+    split_screen(1,0);
+    console_clear();
+    split_screen(2,0);
 }
 
 void copyOneLineUp(shell_line shellBuffer[SHELLH]) {
@@ -143,13 +203,28 @@ void copyCommandDescriptor(char * buf, t_shellc cmd) {
     strcpy(&buf[len+3],cmd.description);
 }
 
+void copyLinesToShellOutput(char lines[][SHELLW], int qty) {
+    shell_line * shell = currentShell == 0 ? shellBuffer1 : shellBuffer2;
+    for (int i=0 ; i<qty ; i++) {
+        copyOneLineUp(currentShell == 0 ? shellBuffer1 : shellBuffer2);
+    }
+
+    int idx = SHELLH-qty-1;
+    for (int i=0 ; i< qty && i<SHELLH ; i++) {
+        strcpy(shell[idx].line,lines[i]);
+        shell[idx].isCmd = 0;
+        idx++;
+    }
+}
+
 
 void setupShellCommands() {
     loadCommand(&printHola,"HolaP", "Printea Hola");
-    loadCommand(&multipleWindows,"multiple", "Starts multiple window environment");
+    loadCommand(&multipleWindowsDispatcher,"multiple", "Starts multiple window environment");
     loadCommand(&printDateTime,"datetime", "Displays the date and time");
     loadCommand(&help,"help", "Shows a list of available commands");
     loadCommand(&inforeg,"inforeg", "Shows the value of all registers");
+    loadCommand(&printmem,"printmem", "Prints 32 bytes of memory from arg. address");
 }
 
 void loadCommand(void (*f)(), char *name, char *desc)
@@ -169,14 +244,15 @@ void processCommands(char * buf, shell_line shellBuffer[SHELLH], int lines) {
 
     strcpy(shellBuffer[SHELLH-1].line, buf);
     shellBuffer[SHELLH-1].isCmd = 1;
-
-    int idx = cmdIndex(buf);
+    char * splitted[8] = {0};
+    split(buf,' ',splitted);
+    int idx = cmdIndex(splitted[0]);
     buf[0]=0;
     if (idx < 0) {
         updateConsoleMsg("Comando invalido");
         return;
     }
-    shellCommands[idx].shellf(0,0);
+    shellCommands[idx].shellf(splitted[1],splitted[2]);
 }
 
 void cleanBuffers() {
@@ -258,7 +334,6 @@ int readInput(char *buffer, int* size, char * def, char color, int maxSize)
 
 // retorna -1 si el buffer no tiene ningun comando valido
 int cmdIndex(char * buf) {
-
 
     for (int i = 0 ; i < cmdCounter ; i++) {
         if (strcmp(buf,shellCommands[i].name)==0)

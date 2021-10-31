@@ -62,6 +62,9 @@ void multipleWindows() {
                         putChar('\b');
                     }
                     break;
+                    case ESC:
+                        return;
+                    break;
                     default:
                         writeBuf(window);
                 }

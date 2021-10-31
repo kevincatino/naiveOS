@@ -4,7 +4,7 @@
 
 static int scancodeToAscii[255] = {
 0, // 0
-0, // 1
+ESC, // 1
 '1', // 2
 '2', // 3
 '3', // 4

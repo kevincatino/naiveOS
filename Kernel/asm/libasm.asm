@@ -193,7 +193,7 @@ infoReg:
 	call getRegs
 	popState
 	ret
-
+	
 section .bss
 ptr resq 1
 regs resq 17
