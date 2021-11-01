@@ -143,6 +143,15 @@ void inforeg() {
 
 }
 
+void divideByZero() {
+    int a =5, b=0;
+    int c = a/b;
+}
+
+void invalidOpCode() {
+    __asm__("UD2"); // inline assembler. Usamos la instruccion UD2 que arroja la excepcion.
+}
+
 // Acepta valores decimales y tambien hexadecimales con el prefijo '0x'
 void printmem(char * dirString) {
     if (!dirString) {
@@ -218,6 +227,8 @@ void setupShellCommands() {
     loadCommand(&help,"help", "Shows a list of available commands");
     loadCommand(&inforeg,"inforeg", "Shows the value of all registers");
     loadCommand(&printmem,"printmem", "Prints 32 bytes of memory from arg. address");
+    loadCommand(&divideByZero,"exception0", "Executes rutine that generates \"division by zero\" exception");
+    loadCommand(&invalidOpCode,"exception6", "Executes rutine that generates \"invalid op. code\" exception");
 }
 
 void loadCommand(void (*f)(), char *name, char *desc)

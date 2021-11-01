@@ -231,13 +231,13 @@ static void getDate(char * buf) {
 }
 
 void updateRegs(uint64_t* regs) {
-    //RAX = 0x
+
     for (int i=0 ; i<REG_COUNT-1 ; i++) {
         char * ptr = registers[i][4] == '=' ? &registers[i][8] : &registers[i][7];
         int len = uintToBase(regs[i], ptr,16);
         ptr[len] = 0;
     }
-    char * sp = &registers[REG_COUNT-1][7];
+    char * sp = &registers[REG_COUNT-1][8];
     int len = uintToBase(regs + REG_COUNT*4*3 + 3, sp, 16); // considero los push de los registros y el push inicial de la direccion de retorno al hacer el llamado a la funcion (3 llamadas antes de llegar a este punto)
     sp[len] = 0;
 

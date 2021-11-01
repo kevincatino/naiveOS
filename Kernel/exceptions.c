@@ -1,6 +1,7 @@
 
 #include <stdint.h>
 #include <naiveConsole.h>
+#include <clock.h>
 
 #define ZERO_EXCEPTION_ID 0
 #define INVALID_OP_EXCEPTION_ID 6
@@ -15,14 +16,10 @@
 
 static void zero_division();
 static void invalid_op();
+extern void infoReg(char ** buf);
 
-// static uint64_t ip,sp;
+static uint64_t * restoreIp = 0x400000;
 
-// void exceptionHandlerRebootPoint(uint64_t Ip, uint64_t Sp)
-// {
-// 	ip = Ip;
-// 	sp = Sp;
-// }
 
 void exceptionDispatcher(int exception, uint64_t * regs) {
 	switch(exception) {
@@ -33,19 +30,35 @@ void exceptionDispatcher(int exception, uint64_t * regs) {
 		invalid_op();
 		break;
 	}
+	int s = seconds();
 	// ACA HABRIA QUE IMPRIMIR LOS REGISTROS QUE SE PASARON EN 'regs' (provienen del pushState en el codigo asm)
+
+	char * buf[17];
+	infoReg(buf);
+	for (int i=0 ; i<17 ; i++) {
+		ncPrint(buf[i]);
+		ncNewline();
+	}
+
+	while(seconds() - s < 3 && seconds() >= s);
+
+	regs[15] = restoreIp; // pisamos el RET con la direccion de ip para restaurarlo
+	
+	
 }
 
 static void zero_division() {
 	// Handler para manejar excepcíon
-	// ncClear();
-	// ncPrintColor("Exception: division by zero",RED_COLOR);
-	// ncNewline();
+	ncSplitConsole(1,0);
+	ncClear();
+	ncPrintColor("Exception: division by zero",RED_COLOR);
+	ncNewline();
 }
 
 static void invalid_op() {
 	// Handler para manejar excepcíon
-	// ncClear();
-	// ncPrintColor("Exception: invalid operation code",RED_COLOR);
-	// ncNewline();
+	ncSplitConsole(1,0);
+	ncClear();
+	ncPrintColor("Exception: invalid operation code",RED_COLOR);
+	ncNewline();
 }

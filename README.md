@@ -8,6 +8,8 @@ La shell admite los siguientes comandos:
 - **inforeg:** despliega por pantalla los contenidos de los registros
 - **printmem:** recibe un único argumento y despliega el contenido de 32 bytes de memoria comenzando por la dirección del argumento
 - **multiple:** despliega el *modo de ventanas múltiples*. Se desarrolla a continuación.
+-  **exception0:** ejecuta una rutina que genera la excepción de división por cero.
+-  **exception6:** ejecuta una rutina que genera la excepción de código de operación inválido.
 
 ## Modo de ventanas múltiples
 Se divide la pantalla en 4 partes iguales con diferentes aplicaciones. En las ventanas que permiten una entrada por teclado, se puede navegar entre ellas a través de las teclas &#8592;, &#8593;, &#8594; y &#8595;. Si se presiona la tecla *ESC* estando en este modo, entonces se puede volver al modo de Shell.
