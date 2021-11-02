@@ -2,6 +2,7 @@
 #define VIDEO_H
 
 #include <stdint.h>
+#include "clock.h"
 
 
 void ncPrint(const char * string);

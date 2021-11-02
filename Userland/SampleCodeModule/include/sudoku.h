@@ -1,6 +1,9 @@
 #ifndef _SUDOKU_H_
 #define _SUDOKU_H_
 
+#include "stdinout.h"
+#include "colors.h"
+
 #define LENGTH 9
 #define OUT_OF_BOUNDS -1
 #define PRED_VALUE -2

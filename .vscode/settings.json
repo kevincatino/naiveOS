@@ -9,6 +9,7 @@
         "time.h": "c",
         "stdint.h": "c",
         "idtloader.h": "c",
-        "videod.h": "c"
+        "videod.h": "c",
+        "moduleloader.h": "c"
     }
 }

@@ -1,6 +1,5 @@
 #include "sudoku.h"
-#include "stdinout.h"
-#include "colors.h"
+
 
 #define LINE " +-------------------+\n"
 #define SPACES "        "

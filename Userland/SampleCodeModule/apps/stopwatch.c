@@ -1,5 +1,5 @@
-#include "stdinout.h"
-#include "colors.h"
+#include "stopWatch.h"
+
 static long tickss;
 static long startTicks;
 static int lastTick;
