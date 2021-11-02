@@ -1,6 +1,6 @@
 
 #include <stdint.h>
-#include <naiveConsole.h>
+#include <videoD.h>
 #include <clock.h>
 
 #define ZERO_EXCEPTION_ID 0
@@ -18,7 +18,7 @@ static void zero_division();
 static void invalid_op();
 extern void infoReg(char ** buf);
 
-static uint64_t * restoreIp = (uint64_t *)0x400000;
+static uint64_t restoreIp = (uint64_t)0x400000;
 
 
 void exceptionDispatcher(int exception, uint64_t * regs) {

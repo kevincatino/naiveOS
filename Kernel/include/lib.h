@@ -20,9 +20,7 @@ int getKbCode();
 
 extern void infoReg(char ** buf);
 
-// extern uint32_t getModuleSize();
-
-// extern void setModuleSize(uint32_t size);
+uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base);
 
 
 #endif

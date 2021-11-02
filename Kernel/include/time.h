@@ -1,7 +1,8 @@
 #ifndef _TIME_H_
 #define _TIME_H_
 
-#include "naiveConsole.h"
+#include "stdint.h"
+#include "videoD.h"
 
 void timer_handler();
 int ticks_elapsed();

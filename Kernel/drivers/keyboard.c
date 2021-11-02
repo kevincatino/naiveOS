@@ -1,6 +1,5 @@
 #include "keyboard.h"
-#include <lib.h>
-#include <naiveConsole.h>
+
 
 static int scancodeToAscii[255] = {
 0, // 0

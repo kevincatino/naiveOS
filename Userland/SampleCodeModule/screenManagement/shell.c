@@ -134,7 +134,6 @@ void inforeg() {
         }
     }
     copyLinesToShellOutput(lines, 5);
-
 }
 
 void divideByZero() {

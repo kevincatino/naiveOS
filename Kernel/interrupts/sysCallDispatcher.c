@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "clock.h"
 #include "time.h"
-#include <naiveConsole.h>
+#include <videoD.h>
 #include <keyboard.h>
 #include <lib.h>
 
@@ -33,7 +33,6 @@ static long timerTick(void (*f)());
 static void getDate(char * buf);
 
 
-static void getMemory(uint32_t * p);
 
 
 
@@ -195,11 +194,11 @@ void updateRegs(uint64_t* regs) {
     while (*stack < 0x400000 || *stack > (SAMPLECODE_PTR + MOD_SIZE)) // buscamos el primer stack frame dentro del Userland.
         stack++;
 
-    int len = uintToBase(stack, sp, 16); 
+    int len = (int)uintToBase((uint64_t)(stack), sp, 16); 
     sp[len] = 0;
     
     sp = &registers[REG_COUNT-2][8];
-    len = uintToBase(*stack, sp, 16);
+    len = (int)uintToBase((uint64_t)(*stack), sp, 16);
     sp[len] = 0;
         
 }

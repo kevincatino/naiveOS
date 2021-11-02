@@ -1,6 +1,6 @@
 #include "time.h"
 #include <stdint.h>
-#include "naiveConsole.h"
+#include "videoD.h"
 #include "lib.h"
 #include "interrupts.h"
 #include "keyboard.h"
@@ -19,7 +19,6 @@ void irqDispatcher(uint64_t irq) {
 }
 
 void int_20() {
-	//ncPrint("timer");
 	 timer_handler();
 }
 

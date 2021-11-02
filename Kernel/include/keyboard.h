@@ -3,6 +3,7 @@
 
 #include "chardefs.h"
 #include "lib.h"
+#include <videoD.h>
 
 
 // Waits for the next key and returns its ascii

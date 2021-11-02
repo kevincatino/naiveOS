@@ -1,13 +1,11 @@
 #include <stdint.h>
-#include <string.h>
 #include <lib.h>
 #include <moduleLoader.h>
-#include <naiveConsole.h>
+#include <videoD.h>
 #include <idtLoader.h>
 #include <keyboard.h>
 #include <clock.h>
 #include <interrupts.h>
-#include <exceptions.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
