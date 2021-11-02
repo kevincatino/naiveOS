@@ -33,6 +33,8 @@ static void loadModule(uint8_t ** module, void * targetModuleAddress)
 
 	// ncPrint(" [Done]");
 	// ncNewline();
+	// if (targetModuleAddress == 0x400000)
+	// 	setModuleSize(moduleSize);
 }
 
 static uint32_t readUint32(uint8_t ** address)

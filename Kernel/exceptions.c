@@ -43,8 +43,6 @@ void exceptionDispatcher(int exception, uint64_t * regs) {
 	while(seconds() - s < 3 && seconds() >= s);
 
 	regs[15] = restoreIp; // pisamos el RET con la direccion de ip para restaurarlo
-	
-	
 }
 
 static void zero_division() {

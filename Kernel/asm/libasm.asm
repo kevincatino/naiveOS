@@ -8,9 +8,8 @@ GLOBAL getKbCode
 GLOBAL keyboardActivated
 
 
-; GLOBAL getStack
-
 EXTERN updateRegs
+; EXTERN updateRegsEx
 
 EXTERN getRegs
 
@@ -86,8 +85,18 @@ section .text
 	pop rbx
 %endmacro
 
+; GLOBAL setModuleSize
+; setModuleSize:
+; 	mov [size], rdi
+; 	ret
 
-	
+; GLOBAL getModuleSize
+
+; getModuleSize:
+; 	mov rax, [size]
+; 	ret
+
+
 cpuVendor:
 	push rbp
 	mov rbp, rsp
@@ -169,23 +178,7 @@ GLOBAL infoReg
 
 infoReg:
 	pushState
-	; mov [regs], rax
-	; mov [regs+8], rbx
-	; mov [regs+8*2], rcx
-	; mov [regs+8*3], rdx
-	; mov [regs+8*4], rbp
-	; mov [regs+8*5], rdi
-	; mov [regs+8*6], rsi
-	; mov [regs+8*7], r8
-	; mov [regs+8*8], r9
-	; mov [regs+8*9], r10
-	; mov [regs+8*10], r11
-	; mov [regs+8*11], r12
-	; mov [regs+8*12], r13
-	; mov [regs+8*13], r14
-	; mov [regs+8*14], r15
-	; mov [regs+8*15], rsp
-	; mov [regs+8*16], rsp ;rip
+
 	mov [ptr], rdi
 	mov rdi, rsp
 	call updateRegs
@@ -193,9 +186,12 @@ infoReg:
 	call getRegs
 	popState
 	ret
+
 	
 section .bss
 ptr resq 1
-regs resq 17
+
+size resd 1
+
 
 

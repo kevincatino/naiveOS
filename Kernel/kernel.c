@@ -64,7 +64,6 @@ int main()
 	//while (1);
 	load_idt();
 	ncInitVideoConsole();
-	//exceptionHandlerRebootPoint((uint64_t)sampleCodeModuleAddress, getStack());
 
 	((EntryPoint)sampleCodeModuleAddress)();
 

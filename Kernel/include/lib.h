@@ -12,16 +12,17 @@ char *cpuVendor(char *result);
 
 int getRTC(int code);
 
-// Waits for the next key and returns its scancode
 char kbReadUntilCode();
 
 int keyboardActivated();
 
 int getKbCode();
 
-// void infoReg(char ** buf);
-// uint64_t getStack();
+extern void infoReg(char ** buf);
 
-// char* itoa(int num, char* str, int base);
+// extern uint32_t getModuleSize();
+
+// extern void setModuleSize(uint32_t size);
+
 
 #endif

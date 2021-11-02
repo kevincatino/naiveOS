@@ -48,13 +48,8 @@ static shell_line shellBuffer2[SHELLH];
 static int buffer1Lines = 0;
 static int buffer2Lines = 0;
 
-static int kb = 0;
-
-
 
 static t_shellc shellCommands[10] = {{0,0,0}};
-
-
 
 
 void printShell(char * buffer, shell_line shellBuffer[SHELLH]) {
@@ -236,7 +231,6 @@ void loadCommand(void (*f)(), char *name, char *desc)
     shellCommands[cmdCounter].shellf = f;
     shellCommands[cmdCounter].name = name;
     shellCommands[cmdCounter].description = desc;
-    // shellCommands[cmdCounter].builtIn = builtIn;
     cmdCounter++;
 }
 
@@ -287,7 +281,6 @@ int theShell() {
     console_clear();
     split_screen(2,0);
     while(1) {
-        int previous = currentShell;
         set_screen(currentShell);
         switch(currentShell) {
             case 0:

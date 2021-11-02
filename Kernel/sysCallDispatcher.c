@@ -10,11 +10,13 @@
 #define STDERR 2
 #define RED 4
 #define REG_COUNT 17
+#define MOD_SIZE 25492
+#define SAMPLECODE_PTR 0x400000
 extern void infoReg(char ** buf);
 static char registers[REG_COUNT][20] = {
-	"RAX = 0x", "RBX = 0x", "RCX = 0x", "RDX = 0x", "RBP = 0x", "RDI = 0x", "RSI = 0x",
-	"R8 = 0x", "R9 = 0x", "R10 = 0x", "R11 = 0x", "R12 = 0x", "R13 = 0x", "R14 = 0x",
-	"R15 = 0x","RIP = 0x","RSP = 0x"};
+	"R15 = 0x", "R14 = 0x", "R13 = 0x", "R12 = 0x", "R11 = 0x", "R10 = 0x", "R9 = 0x",
+	"R8 = 0x", "RSI = 0x", "RDI = 0x", "RBP = 0x", "RDX = 0x", "RCX = 0x", "RBX = 0x",
+	"RAX = 0x","RIP = 0x","RSP = 0x"};
     // Lo apuntado por RSP tiene la direccion de retorno, es decir, el IP antes de ser llamado
 
 typedef uint64_t (*SysCallR)(uint64_t, uint64_t, uint64_t, uint64_t); // defino un puntero a funcion SysCallR
@@ -30,12 +32,15 @@ static void getTime(char * buf);
 static long timerTick(void (*f)());
 static void getDate(char * buf);
 
-// 32 bytes de vuelco de memoria en p = 4 ints
+
 static void getMemory(uint32_t * p);
+
+
+
 
 // static uint64_t * regInfoPTR;
 
-static SysCallR sysCalls[255] = {(SysCallR) &read, (SysCallR) &write, (SysCallR) &clear, (SysCallR) &splitScreen, (SysCallR) &changeScreen, (SysCallR)&getChar,(SysCallR)&ncClearLine,(SysCallR)&getTime, (SysCallR)&timerTick, (SysCallR)&set_kb_target, (SysCallR)&getDate, (SysCallR) &infoReg}; // = {(SysCall) &read, (SysCall) &write, ...} //cpuid, reg_info, mem_dump, clock
+static SysCallR sysCalls[255] = {(SysCallR) &read, (SysCallR) &write, (SysCallR) &clear, (SysCallR) &splitScreen, (SysCallR) &changeScreen, (SysCallR)&getChar,(SysCallR)&ncClearLine,(SysCallR)&getTime, (SysCallR)&timerTick, (SysCallR)&set_kb_target, (SysCallR)&getDate, (SysCallR) &infoReg}; 
 
 uint64_t sysCallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t rax) {
     SysCallR sysCall = sysCalls[rax]; // sysCalls es un arreglo de punteros a funcion, me guardo la funcion que corresponde con el valor de rax
@@ -103,7 +108,7 @@ static int changeScreen(int screen) {
     return ncChangeScreen(screen);
 }
 
-int numToStr(int num, char * str) {
+static int numToStr(int num, char * str) {
     if (num == 0) {
         str[0] = '0';
         return 1;
@@ -129,63 +134,6 @@ int numToStr(int num, char * str) {
 	return len+neg;
 }
 
-// void swap(char* a, char* b) {
-// 	char aux = *a;
-// 	*a = *b;
-// 	*b = aux;
-// }
-// void reverse(char str[], int length)
-// {
-//     int start = 0;
-//     int end = length -1;
-//     while (start < end)
-//     {
-//         swap(str+start, str+end);
-//         start++;
-//         end--;
-//     }
-// }
-
-// char* itoa(int num, char* str, int base)
-// {
-//     int i = 0;
-//     int isNegative = 0;
- 
-//     /* Handle 0 explicitly, otherwise empty string is printed for 0 */
-//     if (num == 0)
-//     {
-//         str[i++] = '0';
-//         str[i] = '\0';
-//         return str;
-//     }
- 
-//     // In standard itoa(), negative numbers are handled only with
-//     // base 10. Otherwise numbers are considered unsigned.
-//     if (num < 0 && base == 10)
-//     {
-//         isNegative = 1;
-//         num = -num;
-//     }
- 
-//     // Process individual digits
-//     while (num != 0)
-//     {
-//         int rem = num % base;
-//         str[i++] = (rem > 9)? (rem-10) + 'a' : rem + '0';
-//         num = num/base;
-//     }
- 
-//     // If number is negative, append '-'
-//     if (isNegative)
-//         str[i++] = '-';
- 
-//     str[i] = '\0'; // Append string terminator
- 
-//     // Reverse the string
-//     reverse(str, i);
- 
-//     return str;
-// }
 
 static void getTime(char * buf) {
     buf[0] = buf[3] = buf[6] = '0';
@@ -230,20 +178,32 @@ static void getDate(char * buf) {
     buf[8] = 0;
 }
 
-void updateRegs(uint64_t* regs) {
-
-    for (int i=0 ; i<REG_COUNT-1 ; i++) {
+static void fillCommonRegs(uint64_t* regs) {
+     for (int i=0 ; i<REG_COUNT-2 ; i++) {
         char * ptr = registers[i][4] == '=' ? &registers[i][8] : &registers[i][7];
         int len = uintToBase(regs[i], ptr,16);
         ptr[len] = 0;
     }
+}
+
+void updateRegs(uint64_t* regs) {
+
+   fillCommonRegs(regs);
 
     char * sp = &registers[REG_COUNT-1][8];
-    int len = uintToBase(regs + REG_COUNT*4*3 + 3, sp, 16); // considero los push de los registros y el push inicial de la direccion de retorno al hacer el llamado a la funcion (3 llamadas antes de llegar a este punto)
-    sp[len] = 0;
+    uint64_t * stack = regs; 
+    while (*stack < 0x400000 || *stack > (SAMPLECODE_PTR + MOD_SIZE)) // buscamos el primer stack frame dentro del Userland.
+        stack++;
 
+    int len = uintToBase(stack, sp, 16); 
+    sp[len] = 0;
+    
+    sp = &registers[REG_COUNT-2][8];
+    len = uintToBase(*stack, sp, 16);
+    sp[len] = 0;
         
 }
+
 
 void getRegs(char ** buf) {
         for (int i=0 ; i<REG_COUNT ; i++) {
