@@ -193,6 +193,3 @@ get_date:
 
 get_regs:
     sysCall 11
-
-get_memory:
-    sysCall 11

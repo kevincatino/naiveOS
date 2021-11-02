@@ -35,7 +35,7 @@ static void getMemory(uint32_t * p);
 
 // static uint64_t * regInfoPTR;
 
-static SysCallR sysCalls[255] = {(SysCallR) &read, (SysCallR) &write, (SysCallR) &clear, (SysCallR) &splitScreen, (SysCallR) &changeScreen, (SysCallR)&getChar,(SysCallR)&ncClearLine,(SysCallR)&getTime, (SysCallR)&timerTick, (SysCallR)&set_kb_target, (SysCallR)&getDate, (SysCallR) &infoReg, (SysCallR) &getMemory}; // = {(SysCall) &read, (SysCall) &write, ...} //cpuid, reg_info, mem_dump, clock
+static SysCallR sysCalls[255] = {(SysCallR) &read, (SysCallR) &write, (SysCallR) &clear, (SysCallR) &splitScreen, (SysCallR) &changeScreen, (SysCallR)&getChar,(SysCallR)&ncClearLine,(SysCallR)&getTime, (SysCallR)&timerTick, (SysCallR)&set_kb_target, (SysCallR)&getDate, (SysCallR) &infoReg}; // = {(SysCall) &read, (SysCall) &write, ...} //cpuid, reg_info, mem_dump, clock
 
 uint64_t sysCallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t rax) {
     SysCallR sysCall = sysCalls[rax]; // sysCalls es un arreglo de punteros a funcion, me guardo la funcion que corresponde con el valor de rax
@@ -237,6 +237,7 @@ void updateRegs(uint64_t* regs) {
         int len = uintToBase(regs[i], ptr,16);
         ptr[len] = 0;
     }
+
     char * sp = &registers[REG_COUNT-1][8];
     int len = uintToBase(regs + REG_COUNT*4*3 + 3, sp, 16); // considero los push de los registros y el push inicial de la direccion de retorno al hacer el llamado a la funcion (3 llamadas antes de llegar a este punto)
     sp[len] = 0;
@@ -250,6 +251,3 @@ void getRegs(char ** buf) {
         }
 }
 
-static void getMemory(uint32_t * p) {
-
-}
