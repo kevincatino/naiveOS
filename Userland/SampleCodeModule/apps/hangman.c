@@ -133,6 +133,7 @@ void solveHangman(){
         i++;
         j += 2;
     }
+    gameEnded = 1;
 }
 
 void initHangman() {

@@ -116,12 +116,7 @@ _sysCallHandlerMaster:
 	mov r8, rax ; el 4to argumento de sysCallDispatcher tendra el valor de rax
 
 	call sysCallDispatcher ; me llamaron a la syscall int 80h con los argumentos en registros rdi, rsi, rdx, rax. Llamo a la funcion 'sysCallDispatcher' que se encarga de manejar la llamada y retorna en rax el valor de retorno
-	; ...
- ; preservo el valor de retorno de la syscall
-	; ; signal pic EOI (End of Interrupt)
-	; mov al, 20h
-	; out 20h, al
- ; restauro el valor de retorno de la syscall
+
 	popStateSysCall
 
 	;cli

@@ -31,7 +31,6 @@ void exceptionDispatcher(int exception, uint64_t * regs) {
 		break;
 	}
 	int s = seconds();
-	// ACA HABRIA QUE IMPRIMIR LOS REGISTROS QUE SE PASARON EN 'regs' (provienen del pushState en el codigo asm)
 
 	char * buf[17];
 	infoReg(buf);

@@ -1,5 +1,5 @@
 #include <videoD.h>
-#include "clock.h"
+
 
 #define VIDEO_PTR ((uint8_t*)0xB8000-2) // apunta el lugar anterior a la primera posicion.
 #define VALID_SCR_QTY(x) ((x) == 1 || (x) == 2 || (x) == 4 )

@@ -87,16 +87,9 @@ void printDateTime() {
 }
 
 void help() {
-    for (int i=0 ; i<cmdCounter ; i++) {
-        copyOneLineUp(currentShell == 0 ? shellBuffer1 : shellBuffer2);
-    }
+
     char lines [cmdCounter][SHELLW];
-    // int idx = SHELLH-1;
-    // for (int i=0 ; i< cmdCounter && i<SHELLH ; i++) {
-    //     copyCommandDescriptor(shell[idx].line,shellCommands[i]);
-    //     shell[idx].isCmd = 0;
-    //     idx--;
-    // }
+
     for (int i=0 ; i<cmdCounter ; i++) {
         copyCommandDescriptor(lines[i],shellCommands[i]);
     }
@@ -104,23 +97,7 @@ void help() {
 }
 
 void inforeg() {
-    // shell_line * shell = currentShell == 0 ? shellBuffer1 : shellBuffer2;
-    // char * regs[17] = {0};
-    //     get_regs(regs);
-    //     for (int i=0 ; i<5 ; i++) {
-    //     copyOneLineUp(currentShell == 0 ? shellBuffer1 : shellBuffer2);
-    // }
-    //     int idx = SHELLH-1, j=0;
-    // for (int i=0 ; i< 5 ; i++) {
-    //     shell[idx].line[0] = 0;
-    //     for (int k = 0 ; k<4 && j<17 ; k++) {
-    //             int len = strcat(shell[idx].line,regs[j++]);
-    //             shell[idx].line[len] = ' ';
-    //             shell[idx].line[len+1] = 0;
-    //     }
-    //     shell[idx].isCmd = 0;
-    //     idx--;
-    // }
+
     int j=0;
     char * regs[17] = {0};
     get_regs(regs);
