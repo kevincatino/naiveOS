@@ -23,7 +23,7 @@ extern void get_time(char * buf);
 extern long timer_tick(void (*f)());
 extern void set_kb_target(int * var);
 extern void get_date(char * buf);
-extern void get_regs(char * buf);
+extern void get_regs(char ** buf);
 extern void get_memory(unsigned int * p);
 
 
@@ -45,7 +45,7 @@ int getChar();
 int putChar(char c);
 int putCharColor(char c, char color);
 int strcmp(char * s1, char * s2);
-int strcpy(char* destination, const char* source);
+char * strcpy(char* destination, char* source);
 int getRealChar();
 int atoi(char * s);
 int atoi_base(const char *str, int str_base);

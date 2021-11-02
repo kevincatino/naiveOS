@@ -30,7 +30,7 @@ static uint32_t shift = 0;
 static uint32_t position = 0;
 static uint32_t counterMax = 0;
 
-#define NOT_INITIALIZED 1
+#define NOT_INITIALIZED ((uint8_t*)1)
 
 void ncInitVideoConsole() {
 	// shift = 0;
@@ -47,7 +47,7 @@ void ncInitVideoConsole() {
 
 int ncSplitConsole(int screenQty, int screenNum) {
 	position = 0;
-	twoScreensAux[0].ptr = twoScreensAux[1].ptr = fourScreensAux[0].ptr = fourScreensAux[1].ptr = fourScreensAux[2].ptr = fourScreensAux[3].ptr = NOT_INITIALIZED;
+	twoScreensAux[0].ptr = twoScreensAux[1].ptr = fourScreensAux[0].ptr = fourScreensAux[1].ptr = fourScreensAux[2].ptr = fourScreensAux[3].ptr = (uint8_t *) NOT_INITIALIZED;
 
 	if (!VALID_SCR_QTY(screenQty) || screenNum >= screenQty )
 		return -1;

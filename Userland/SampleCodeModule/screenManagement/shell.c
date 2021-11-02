@@ -10,7 +10,7 @@ typedef struct
 
 typedef struct
 {
-    void (*shellf)(int arg1, int arg2);
+    void (*shellf)();
     char *name;
     char *description;
 } t_shellc;
@@ -87,7 +87,6 @@ void printDateTime() {
 }
 
 void help() {
-    shell_line * shell = currentShell == 0 ? shellBuffer1 : shellBuffer2;
     for (int i=0 ; i<cmdCounter ; i++) {
         copyOneLineUp(currentShell == 0 ? shellBuffer1 : shellBuffer2);
     }
@@ -139,8 +138,9 @@ void inforeg() {
 }
 
 void divideByZero() {
-    int a =5, b=0;
-    int c = a/b;
+    int a =5, b=0, c;
+    c = a/b;
+    c++;
 }
 
 void invalidOpCode() {
@@ -158,10 +158,10 @@ void printmem(char * dirString) {
     split(dirString,'x',splitted);
     if (splitted[1]) {
             char * hexaAddress = splitted[1];
-         ptr = atoi_base(hexaAddress,16);
+         ptr =(uint8_t *) atoi_base(hexaAddress,16);
     }
     else {
-        ptr = atoi_base(splitted[0],10);
+        ptr = (uint8_t *)atoi_base(splitted[0],10);
     }
     char output[2][SHELLW];
     char aux[10] = {"0x"};

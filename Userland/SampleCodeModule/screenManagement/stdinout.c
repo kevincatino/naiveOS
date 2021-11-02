@@ -361,14 +361,12 @@ int strcmp(char *X, char *Y)
 }
 
 
-int strcpy(char* destination, const char* source)
+char * strcpy(char* destination, char* source)
 {
     // return if no memory is allocated to the destination
     if (destination == NULL) {
         return NULL;
     }
- 
-    char *ptr = destination;
  
     while (*source != '\0')
     {
