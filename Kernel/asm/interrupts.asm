@@ -125,6 +125,7 @@ _sysCallHandlerMaster:
 
 
 %macro exceptionHandler 1
+	push rsp
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
@@ -132,6 +133,7 @@ _sysCallHandlerMaster:
 	call exceptionDispatcher
 
 	popState
+	pop rsp
 	iretq
 %endmacro
 

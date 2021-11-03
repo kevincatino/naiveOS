@@ -6,6 +6,7 @@
 #include <keyboard.h>
 #include <clock.h>
 #include <interrupts.h>
+#include <exceptions.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -60,6 +61,7 @@ void * initializeKernelBinary()
 int main()
 {		
 	//while (1);
+	setExceptionRebootPoint((uint64_t)sampleCodeModuleAddress, getStack());
 	load_idt();
 	ncInitVideoConsole();
 

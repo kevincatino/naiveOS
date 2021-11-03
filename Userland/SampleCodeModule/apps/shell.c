@@ -37,11 +37,6 @@ int currentShell = 0;
 static int flag = 1;
 
 
-
-
-// static char shellBuffer1[SHELLH][SHELLW];
-// static char shellBuffer2[SHELLH][SHELLW];
-
 static shell_line shellBuffer1[SHELLH];
 static shell_line shellBuffer2[SHELLH];
 
@@ -64,7 +59,6 @@ void printShell(char * buffer, shell_line shellBuffer[SHELLH]) {
         }  
     }
     print(consoleMsg);
-    //consoleMsg[0]=0;
     putChar('\n');
 
     printColor(SHELL_MSG,SHELL_COLOR);

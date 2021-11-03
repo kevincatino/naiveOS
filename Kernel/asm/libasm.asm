@@ -170,9 +170,10 @@ getRTC:
     pop rbp
     ret
 
-; getStack:
-; 	mov rax, rsp
-; 	ret
+GLOBAL getStack
+getStack:
+	mov rax, rsp
+	ret
 
 GLOBAL infoReg
 

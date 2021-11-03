@@ -1,6 +1,14 @@
 #include <lib.h>
 
+
+
 extern uint64_t* inforeg();
+
+static char registers[REG_COUNT][20] = {
+	"R15 = 0x", "R14 = 0x", "R13 = 0x", "R12 = 0x", "R11 = 0x", "R10 = 0x", "R9 = 0x",
+	"R8 = 0x", "RSI = 0x", "RDI = 0x", "RBP = 0x", "RDX = 0x", "RCX = 0x", "RBX = 0x",
+	"RAX = 0x","RIP = 0x","RSP = 0x"};
+    // Lo apuntado por RSP tiene la direccion de retorno, es decir, el IP antes de ser llamado
 
 void * memset(void * destination, int32_t c, uint64_t length)
 {
@@ -82,6 +90,39 @@ uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 	}
 
 	return digits;
+}
+
+static void fillCommonRegs(uint64_t* regs) {
+     for (int i=0 ; i<REG_COUNT-2 ; i++) {
+        char * ptr = registers[i][4] == '=' ? &registers[i][8] : &registers[i][7];
+        int len = uintToBase(regs[i], ptr,16);
+        ptr[len] = 0;
+    }
+}
+
+void updateRegs(uint64_t* regs) {
+
+   fillCommonRegs(regs);
+
+    char * sp = &registers[REG_COUNT-1][8];
+    uint64_t * stack = regs; 
+    while (*stack < 0x400000 || *stack > (SAMPLECODE_PTR + MOD_SIZE)) // buscamos el primer stack frame dentro del Userland.
+        stack++;
+
+    int len = (int)uintToBase((uint64_t)(stack), sp, 16); 
+    sp[len] = 0;
+    
+    sp = &registers[REG_COUNT-2][8];
+    len = (int)uintToBase((uint64_t)(*stack), sp, 16);
+    sp[len] = 0;
+        
+}
+
+
+void getRegs(char ** buf) {
+        for (int i=0 ; i<REG_COUNT ; i++) {
+            buf[i] = registers[i];
+        }
 }
 
 
