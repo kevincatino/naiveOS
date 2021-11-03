@@ -96,9 +96,11 @@ SECTION .text
 %endmacro
 
 %macro irqHandlerMaster 1
+	push rsp
 	pushState
 
 	mov rdi, %1 ; pasaje de parametro
+	mov rsi, rsp
 	call irqDispatcher
 
 	; ; signal pic EOI (End of Interrupt)
@@ -106,6 +108,7 @@ SECTION .text
 	out 20h, al
 
 	popState
+	pop rsp
 	iretq
 %endmacro
 

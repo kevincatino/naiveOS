@@ -58,7 +58,7 @@ ESC, // 1
 '/', // 53
 0, // 54
 0, // 55
-0, // 56
+ALT, // 56
 ' ', // 57
 CAPS_LOCK, // 58
 0, // 59
@@ -109,11 +109,12 @@ int kb_read() {
 }
 
 
-void keyboardDriver() {
-     //ncPrint("HOLA");
+void keyboardDriver(uint64_t * stack) {
+     updateRegs(stack);
      int c;
      while(keyboardActivated()) {
           c = getKbCode();
+          // if (scancodeToAscii[c] == ALT)
      }
           if (target && !(c & 0x80))
           *target = getAscii(c);

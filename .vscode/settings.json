@@ -10,6 +10,7 @@
         "stdint.h": "c",
         "idtloader.h": "c",
         "videod.h": "c",
-        "moduleloader.h": "c"
+        "moduleloader.h": "c",
+        "chardefs.h": "c"
     }
 }

@@ -175,20 +175,21 @@ getStack:
 	mov rax, rsp
 	ret
 
-GLOBAL infoReg
+; GLOBAL infoReg
 
-infoReg:
-	pushState
+; infoReg:
+; 	; push rsp
+; 	pushState
 
-	mov [ptr], rdi
-	mov rdi, rsp
-	call updateRegs
-	mov rdi, [ptr]
-	call getRegs
-	popState
-	ret
+; 	mov [ptr], rdi
+; 	mov rdi, rsp
+; 	call updateRegs
+; 	mov rdi, [ptr]
+; 	call getRegs
+; 	popState
+; 	; pop rsp
+; 	ret
 
-	
 section .bss
 ptr resq 1
 
