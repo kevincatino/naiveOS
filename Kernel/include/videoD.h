@@ -15,12 +15,9 @@ void ncPrintHex(uint64_t value);
 void ncPrintBin(uint64_t value);
 void ncPrintBase(uint64_t value, uint32_t base);
 void ncClear();
-void ncPrintDate(); // AGREGADA
-void ncPrintTime(); // AGREGADA
-void ncPrintDateTime(); // AGREGADA
-int ncSplitConsole(int screens, int screen); // AGREGADA
-int ncChangeScreen(int screen); // AGREGADA
-void ncClearLine(); // AGREGADA
+int ncSplitConsole(int screens, int screen); 
+int ncChangeScreen(int screen); 
+void ncClearLine(); 
 void ncInitVideoConsole();
 
 #endif

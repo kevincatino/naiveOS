@@ -31,14 +31,7 @@ static uint32_t counterMax = 0;
 #define NOT_INITIALIZED ((uint8_t*)1)
 
 void ncInitVideoConsole() {
-	// shift = 0;
-	// width = WIDTH;
-	// height = HEIGHT;
-	// video = VIDEO_PTR;
-	// currentVideo = video;
-	// counterMax = width*height;
-	// position =0;
-	// twoScreensAux[0].ptr = twoScreensAux[1].ptr = fourScreensAux[0].ptr = fourScreensAux[1].ptr = fourScreensAux[2].ptr = fourScreensAux[3].ptr = NOT_INITIALIZED;
+
 	ncSplitConsole(1,0);
 }
 
@@ -232,28 +225,6 @@ void ncClearLine() {
 		ncDelete();
 }
 
-
-
-// void ncPrintDec(uint64_t value)
-// {
-// 	ncPrintBase(value, 10);
-// }
-
-// void ncPrintHex(uint64_t value)
-// {
-// 	ncPrintBase(value, 16);
-// }
-
-// void ncPrintBin(uint64_t value)
-// {
-// 	ncPrintBase(value, 2);
-// }
-
-// void ncPrintBase(uint64_t value, uint32_t base)
-// {
-//     uintToBase(value, buffer, base);
-//     ncPrint(buffer);
-// }
 
 
 void ncClear()

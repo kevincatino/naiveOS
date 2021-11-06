@@ -6,7 +6,6 @@
 #include <videoD.h>
 
 
-// Waits for the next key and returns its ascii
 int kb_read();
 
 void keyboardDriver(uint64_t * stack);

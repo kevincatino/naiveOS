@@ -87,7 +87,6 @@ DOWN_ARROW, // 80
 
 static int MAYUS = 0;
 static int * target = 0;
-//static int PRESSED = 0;
 
 
 int getAscii(int val) {
@@ -101,9 +100,8 @@ int getAscii(int val) {
 
 int kb_read() {
 	int sc;
-	// do {
+
 		sc = kbReadUntilCode();
-	// } while (sc & 0x80); // sigo escaneando mientras el dato no haya sido transferido completamente
 
 	return getAscii(sc);
 }
@@ -114,7 +112,6 @@ void keyboardDriver(uint64_t * stack) {
      int c;
      while(keyboardActivated()) {
           c = getKbCode();
-          // if (scancodeToAscii[c] == ALT)
      }
           if (target && !(c & 0x80))
           *target = getAscii(c);
@@ -132,6 +129,5 @@ int readFromKeyboard(char * buf, uint64_t count, int ascii) {
           if (ascii && !PRINTABLE(buf[i]))
                i--;
      }
-     //picMasterMask(0xFC);
      return count;
 }

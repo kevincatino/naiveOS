@@ -85,16 +85,6 @@ section .text
 	pop rbx
 %endmacro
 
-; GLOBAL setModuleSize
-; setModuleSize:
-; 	mov [size], rdi
-; 	ret
-
-; GLOBAL getModuleSize
-
-; getModuleSize:
-; 	mov rax, [size]
-; 	ret
 
 
 cpuVendor:
@@ -122,10 +112,9 @@ cpuVendor:
 	ret
 
 kbd_wait_till_data:
-.loop:	in al, 64h			; We bring status register to AL
-		and al, 00000001	; We clear all but the lowest bit
+.loop:	in al, 64h		
+		and al, 00000001
 		jz .loop
-		; If it's 0, we repeat.
 
 .iscomplete:
 		xor rax, rax
@@ -138,9 +127,7 @@ kbReadUntilCode:
 		pushStateNoRax
 		mov al, 0D0h
 		out 64h, al
-		call kbd_wait_till_data	; We wait until there's data to read
-		; mov rax, 0			
-		; in al, 60h
+		call kbd_wait_till_data	
 		popStateNoRax			
 		ret
 

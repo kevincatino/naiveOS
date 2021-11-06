@@ -20,15 +20,7 @@ void print(char * string) {
 }
 
 
-// ----------------------------------------------------------
-// strlength: me calcula la longitud
-// ----------------------------------------------------------
-// Argumentos:
-//      1. El puntero del string a calcular
-// ----------------------------------------------------------
-// Retorna:
-//     el length 
-// ----------------------------------------------------------
+
 int strlength(char * string) {
 	int i;
 	for (i=0 ; string[i] ; i++);
@@ -56,42 +48,7 @@ int strcat(char * target, char * source) {
    return c;
 }
 
-// ----------------------------------------------------------
-// numToStr: Me convierte de numero a String 
-// 			  (admite negativos)
-// ----------------------------------------------------------
-// Argumentos:
-//      1. El numero a convertir
-//      2. El buffer
-// ----------------------------------------------------------
-// Retorna: la longitud del numero 
-// 			(incluyendo el - si es negativo)  
-// ----------------------------------------------------------
-// int numToStr(int num, char * str) {
-// 	    if (num == 0) {
-//         str[0] = '0';
-//         return 1;
-//     }
-// 	int neg=0;
-// 	if (num<0) {
-// 		str[0]='-';
-// 		str++;
-// 		num=num*(-1);
-// 		neg=1;
-// 	}	
-// 	int i, rem, n, len = 0;
-// 	n = num;
-// 	while (n != 0) {
-// 	  len++;
-// 	  n /= 10;
-// 	}
-// 	for (i = 0; i < len; i++) {
-// 	  rem = num % 10;
-// 	  num = num / 10;
-// 	  str[len - (i + 1)] = rem + '0';
-// 	}
-// 	return len+neg;
-// }
+
 
 void swap(char* a, char* b) {
 	char aux = *a;
@@ -116,22 +73,18 @@ int numToStr(int num, char* str, int base)
     int i = 0;
     int isNegative = 0;
  
-    /* Handle 0 explicitly, otherwise empty string is printed for 0 */
     if (num == 0)
     {
         str[i++] = '0';
         return 1;
     }
  
-    // In standard itoa(), negative numbers are handled only with
-    // base 10. Otherwise numbers are considered unsigned.
     if (num < 0 && base == 10)
     {
         isNegative = 1;
         num = -num;
     }
  
-    // Process individual digits
     while (num != 0)
     {
         int rem = num % base;
@@ -139,11 +92,10 @@ int numToStr(int num, char* str, int base)
         num = num/base;
     }
  
-    // If number is negative, append '-'
     if (isNegative)
         str[i++] = '-';
  
-    // Reverse the string
+
     reverse(str, i);
  
     return i;
@@ -156,16 +108,7 @@ char * itoa(int num, char* str, int base) {
 }
 
 
-// ----------------------------------------------------------
-// power: Hace la potencia
-// ----------------------------------------------------------
-// Argumentos:
-//      1. El numero
-//      2. La potencia de 10. Ejemplo: (5 ^ p)
-// ----------------------------------------------------------
-// Retorna:
-//      El numero final
-// ----------------------------------------------------------
+
 int power(int num, int p) {
 	int res = 1;
 	for(int i = 0; i < p; i++) {
@@ -174,17 +117,7 @@ int power(int num, int p) {
 	return num*res;
 }
 
-// ----------------------------------------------------------
-// strToInt: Me convierte de String a numero
-//           Utiliza: power()        
-// ----------------------------------------------------------
-// Argumentos:
-//      1. El buffer
-//      1. La longitud del string a convertir
-// ----------------------------------------------------------
-// Retorna:
-//      El numero o -1 si algun caracter no es un digito
-// ----------------------------------------------------------
+
 int strToInt(char * buff, int len) {
 	int res = 0;
 	for(int i = 0; i < len; i++) {
@@ -238,30 +171,12 @@ int atoi_base(const char *str, int str_base)
     return (result);
 }
 
-// ----------------------------------------------------------
-// isDigit: Me dice si es digito o no
-// ----------------------------------------------------------
-// Argumentos:
-//      1. El caracter
-// ----------------------------------------------------------
-// Retorna:
-//      1 si es un digito o -1 si no
-// ----------------------------------------------------------
+
 int isDigit(char c) {
     return c <= '9' && c >= '0';
 }
 
-// ----------------------------------------------------------
-// charToDigit: Me pasa el valor a digito
-// 				Utiliza: isDigit
-// ----------------------------------------------------------
-// Argumentos:
-//      1. El caracter
-// ----------------------------------------------------------
-// Retorna:
-//      El valor del digito entero si el char es un numero 
-// 		o -1 sino.
-// ----------------------------------------------------------
+
 int charToDigit(char c) {
     if(isDigit(c)) {
 		return c - '0';
@@ -269,15 +184,7 @@ int charToDigit(char c) {
 	return -1;
 }
 
-// ----------------------------------------------------------
-// toLower: Me pasa a minusculas
-// ----------------------------------------------------------
-// Argumentos:
-//      1. El caracter a transformar
-// ----------------------------------------------------------
-// Retorna:
-//      El caracter en minuscula
-// ----------------------------------------------------------
+
 char toLower(char c) {
     if(c >= 'A' && c <= 'Z') {
         c = c + ('a'-'A');
@@ -294,76 +201,28 @@ char toUpper(char c) {
 
 
 
-// ----------------------------------------------------------
-// toNumberAndAdvance: Me arma el numero con los caracteres 
-// 					   sueltos que le pase  
-//                     Utiliza: srtToInt(), isDigit()                   
-// ----------------------------------------------------------
-// Argumentos:
-//      1. El string 
-// 		2. El puntero al indice (al retornar, el indice apunta a la 
-//         posicion siguiente del numero)
-// ----------------------------------------------------------
-// Retorna:
-//      El numero formado o -1 si no encontro ningun numero (imprime que 
-//		hubo error)
-// ----------------------------------------------------------
-int toNumberAndAdvance(char * string, int * index) {
-	int start=0, aux=0, flag=0;
-	int * i;
-	if (index == NULL) {
-		i = &aux;
-	}
-	else  {
-		i = index;
-		start = *index;
-	}
-
-	if (string[*i]=='-') {
-		flag=1;
-		start++;
-		(*i)++;
-	}	
-	else if (!isDigit(string[*i])) {
-		print("El numero es invalido\n");
-		return -1;
-	}
-
-	while (isDigit(string[*i])) {
-		(*i)++;
-	}
-	int end = (*i)-1, k=0;
-	char array[end-start+1];
-	for (int j = start; j <= end; j++) {
-		array[k++]=string[j];
-	}
-	return flag ? (-1*strToInt(array, end-start+1)) : strToInt(array, end-start+1);
-}
-
-
-
 int strcmp(char *X, char *Y)
 {
     while (*X)
     {
-        // if characters differ, or end of the second string is reached
+
         if (*X != *Y) {
             break;
         }
  
-        // move to the next pair of characters
+
         X++;
         Y++;
     }
  
-    // return the ASCII difference after converting `char*` to `unsigned char*`
+
     return *(const unsigned char*)X - *(const unsigned char*)Y;
 }
 
 
 char * strcpy(char* destination, char* source)
 {
-    // return if no memory is allocated to the destination
+
     if (destination == NULL) {
         return NULL;
     }
@@ -379,8 +238,6 @@ char * strcpy(char* destination, char* source)
  
     return source;
 }
-
-
 
 
 int getChar() {

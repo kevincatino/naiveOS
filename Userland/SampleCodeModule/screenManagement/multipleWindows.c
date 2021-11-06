@@ -29,11 +29,10 @@ static char timeBuf[14] = {0};
 
 static char msgBuf[64] = {0};
 static char aux[10] = {0};
-//static char sudokuBuf[64] = {0};
-static int window = 0;
-// static long tickss = 0;
 
-// UP = 501, DOWN = 502, LEFT%4 = 503, RIGHT%4 = 504
+static int window = 0;
+
+
 static const int windowChange[4][4] = {{2,2,1,1}, {3,3,0,0},{0,0,3,3},{1,1,2,2}};
 static int kbPress = 0;
 

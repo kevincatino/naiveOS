@@ -21,17 +21,18 @@ STATICLIBS=
 all: $(KERNEL)
 
 $(KERNEL): $(LOADEROBJECT) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM) $(OBJECTS_INT) $(OBJECTS_DRIVER)
-	$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS) $(OBJECTS_ASM) $(OBJECTS_INT) $(OBJECTS_DRIVER) $(STATICLIBS)
-	$(LD) $(LDFLAGS) -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf $(LOADEROBJECT) $(OBJECTS) $(OBJECTS_ASM) $(OBJECTS_INT) $(OBJECTS_DRIVER) $(STATICLIBS)
+	@$(LD) $(LDFLAGS) -T kernel.ld -o $(KERNEL) $(LOADEROBJECT) $(OBJECTS) $(OBJECTS_ASM) $(OBJECTS_INT) $(OBJECTS_DRIVER) $(STATICLIBS)
+
+	# @$(LD) $(LDFLAGS) -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf $(LOADEROBJECT) $(OBJECTS) $(OBJECTS_ASM) $(OBJECTS_INT) $(OBJECTS_DRIVER) $(STATICLIBS)
 
 %.o: %.c
-	$(GCC) $(GCCFLAGS) -I./include -I./interrupts -I./drivers -c $< -o $@
+	@$(GCC) $(GCCFLAGS) -I./include -I./interrupts -I./drivers -c $< -o $@
 
 %.o : %.asm
-	$(ASM) $(ASMFLAGS) $< -o $@
+	@$(ASM) $(ASMFLAGS) $< -o $@
 
 $(LOADEROBJECT):
-	$(ASM) $(ASMFLAGS) $(LOADERSRC) -o $(LOADEROBJECT)
+	@$(ASM) $(ASMFLAGS) $(LOADERSRC) -o $(LOADEROBJECT)
 
 clean:
 	rm -rf drivers/*.o interrupts/*.o asm/*.o *.o *.bin kernel.elf

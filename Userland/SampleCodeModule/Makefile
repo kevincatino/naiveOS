@@ -16,15 +16,15 @@ OBJECTS_SCREENMANAGEMENT=$(SOURCES_SCREENMANAGEMENT:.c=.o)
 all: $(MODULE)
 
 $(MODULE): $(OBJECTS) $(OBJECTS_ASM) $(OBJECTS_APPS) $(OBJECTS_SCREENMANAGEMENT)
-	$(LD) $(LDFLAGS) -T sampleCodeModule.ld _loader.o $(filter-out _loader.o,$(OBJECTS)) $(OBJECTS_ASM) $(OBJECTS_APPS) $(OBJECTS_SCREENMANAGEMENT) -o ../$(MODULE)
+	@$(LD) $(LDFLAGS) -T sampleCodeModule.ld _loader.o $(filter-out _loader.o,$(OBJECTS)) $(OBJECTS_ASM) $(OBJECTS_APPS) $(OBJECTS_SCREENMANAGEMENT) -o ../$(MODULE)
 
-	@$(LD) $(LDFLAGS) -I./include -T sampleCodeModule.ld _loader.o $(filter-out _loader.o,$(OBJECTS)) $(OBJECTS_ASM) $(OBJECTS_APPS) $(OBJECTS_SCREENMANAGEMENT) --oformat=elf64-x86-64 -o ../0000-sampleCodeModule.elf
+	# @$(LD) $(LDFLAGS) -I./include -T sampleCodeModule.ld _loader.o $(filter-out _loader.o,$(OBJECTS)) $(OBJECTS_ASM) $(OBJECTS_APPS) $(OBJECTS_SCREENMANAGEMENT) --oformat=elf64-x86-64 -o ../0000-sampleCodeModule.elf
 
 %.o : %.asm
-	$(ASM) $(ASMFLAGS) $< -o $@
+	@$(ASM) $(ASMFLAGS) $< -o $@
 
 %.o: %.c
-	$(GCC) $(GCCFLAGS) -I./include -I./apps -I./screenManagement -c $< -o $@
+	@$(GCC) $(GCCFLAGS) -I./include -I./apps -I./screenManagement -c $< -o $@
 
 clean:
 	rm -rf *.o apps/*.o screenManagement/*.o asm/*.o *.bin 0000-sampleCodeModule.elf

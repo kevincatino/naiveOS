@@ -60,7 +60,6 @@ void * initializeKernelBinary()
 
 int main()
 {		
-	//while (1);
 	setExceptionRebootPoint((uint64_t)sampleCodeModuleAddress, getStack());
 	load_idt();
 	ncInitVideoConsole();

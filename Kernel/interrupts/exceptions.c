@@ -1,8 +1,5 @@
 
-#include <stdint.h>
-#include <videoD.h>
-#include <clock.h>
-#include <lib.h>
+#include <exceptions.h>
 
 #define ZERO_EXCEPTION_ID 0
 #define INVALID_OP_EXCEPTION_ID 6
@@ -19,10 +16,10 @@ static void zero_division();
 static void invalid_op();
 extern void infoReg(char ** buf);
 
-static uint64_t * restoreIp = (uint64_t *)0x400000;
+static uint64_t restoreIp;;
 static uint64_t * restoreSp;
 
-void setExceptionRebootPoint(uint64_t * ip, uint64_t * sp) {
+void setExceptionRebootPoint(uint64_t ip, uint64_t * sp) {
 	restoreIp = ip;
 	restoreSp = sp;
 }
@@ -50,9 +47,8 @@ void exceptionDispatcher(int exception, uint64_t * regs) {
 
 	while(seconds() - s < 3 && seconds() >= s);
 
-	// regs[15] = restoreIp; // pisamos el RET con la direccion de ip para restaurarlo
-	uint64_t * prevStack = regs[15];
-	regs[15] = restoreSp;
+	uint64_t * prevStack = (uint64_t *)regs[15]; // pisamos el valor del stack
+	regs[15] = (uint64_t )restoreSp;
 	restoreSp[0] = restoreIp;
 	restoreSp[1] = prevStack[1];
 	restoreSp[2] = prevStack[2];

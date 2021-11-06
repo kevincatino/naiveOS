@@ -64,7 +64,6 @@ uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 	char *p1, *p2;
 	uint32_t digits = 0;
 
-	//Calculate characters for each digit
 	do
 	{
 		uint32_t remainder = value % base;
@@ -73,10 +72,8 @@ uint32_t uintToBase(uint64_t value, char * buffer, uint32_t base)
 	}
 	while (value /= base);
 
-	// Terminate string in buffer.
 	*p = 0;
 
-	//Reverse string in buffer.
 	p1 = buffer;
 	p2 = p - 1;
 	while (p1 < p2)
@@ -104,8 +101,7 @@ void updateRegs(uint64_t* regs) {
    fillCommonRegs(regs);
 
     char * sp = &registers[REG_COUNT-1][8];
-    uint64_t * stack = regs[15]; 
-    // while (*stack < 0x400000 || *stack > (SAMPLECODE_PTR + MOD_SIZE)) // buscamos el primer stack frame dentro del Userland.
+    uint64_t * stack = (uint64_t *)regs[15]; 
 
     int len = (int)uintToBase((uint64_t)(stack), sp, 16); 
     sp[len] = 0;

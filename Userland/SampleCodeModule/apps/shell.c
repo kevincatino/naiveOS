@@ -128,10 +128,10 @@ void printmem(char * dirString) {
     split(dirString,'x',splitted);
     if (splitted[1]) {
             char * hexaAddress = splitted[1];
-         ptr =(uint8_t *) atoi_base(hexaAddress,16);
+         ptr =(uint8_t *)(long) atoi_base(hexaAddress,16);
     }
     else {
-        ptr = (uint8_t *)atoi_base(splitted[0],10);
+        ptr = (uint8_t *)(long)atoi_base(splitted[0],10);
     }
     char output[2][SHELLW];
     char aux[10] = {"0x"};
