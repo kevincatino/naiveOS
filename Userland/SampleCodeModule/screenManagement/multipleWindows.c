@@ -37,7 +37,6 @@ static const int windowChange[4][4] = {{2,2,1,1}, {3,3,0,0},{0,0,3,3},{1,1,2,2}}
 static int kbPress = 0;
 
 void multipleWindows() {
-    //set_routine(&alwaysUpdate);
     set_kb_target(&kbPress);
     window = 0;
     split_screen(1,0);
