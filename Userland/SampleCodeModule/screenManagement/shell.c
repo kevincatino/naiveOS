@@ -269,6 +269,8 @@ int readInput(char *buffer, int* size, char * def, char color, int maxSize)
     
     while ((*size) < (maxSize - 1) && ((c = getRealChar()) != '\n')  && (c != UP_ARROW) && (c != DOWN_ARROW))
     { 
+        // if (!PRINTABLE(c))
+        //     continue;
         if (begin) {
             clear_line();
             printColor(def, color);

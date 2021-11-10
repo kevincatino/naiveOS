@@ -87,6 +87,8 @@ DOWN_ARROW, // 80
 
 static int MAYUS = 0;
 static int * target = 0;
+static int pressedValue = 0;
+uint64_t stackBackup[16]= {0};
 
 
 int getAscii(int val) {
@@ -106,15 +108,25 @@ int kb_read() {
 	return getAscii(sc);
 }
 
+void overwriteRegs() {
+     updateRegs(stackBackup);
+}
+
 
 void keyboardDriver(uint64_t * stack) {
-     updateRegs(stack);
+     for (int i=0 ; i<REG_COUNT-1 ; i++)
+          stackBackup[i] = stack[i];
      int c;
      while(keyboardActivated()) {
           c = getKbCode();
      }
-          if (target && !(c & 0x80))
-          *target = getAscii(c);
+          if (target && !(c & 0x80)) {
+               *target = getAscii(c);
+               if (*target == ALT)
+                    overwriteRegs();
+          }
+          
+
 }
       	
 
@@ -126,6 +138,7 @@ int readFromKeyboard(char * buf, uint64_t count, int ascii) {
      //picMasterMask(0xFE);
      for(int i=0 ; i<count ; i++) {
           buf[i] = kb_read();
+          pressedValue = buf[i];
           if (ascii && !PRINTABLE(buf[i]))
                i--;
      }

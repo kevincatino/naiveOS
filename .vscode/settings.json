@@ -11,6 +11,7 @@
         "idtloader.h": "c",
         "videod.h": "c",
         "moduleloader.h": "c",
-        "chardefs.h": "c"
+        "chardefs.h": "c",
+        "stopwatch.h": "c"
     }
 }

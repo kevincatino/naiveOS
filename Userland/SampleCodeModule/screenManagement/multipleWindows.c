@@ -38,6 +38,7 @@ static int kbPress = 0;
 
 void multipleWindows() {
     set_kb_target(&kbPress);
+    kbPress = 0;
     window = 0;
     split_screen(1,0);
     console_clear();
@@ -61,10 +62,12 @@ void multipleWindows() {
                     }
                     break;
                     case ESC:
+                        kbPress = 0;
+                        buffers[window].buffer[0] = 0;
                         return;
                     break;
                     default:
-                        if (window != 1)
+                        if (window != 1 && PRINTABLE(kbPress))
                             writeBuf(window);
                 }
             }

@@ -12,7 +12,7 @@
 #define CLEAR_LINE 350
 #define ESC 310
 #define ALT 340
-#define PRINTABLE(x) ((x) != CAPS_LOCK && (x) != UP_ARROW && (x) != DOWN_ARROW && (x) != LEFT_ARROW && (x) != RIGHT_ARROW)
+#define PRINTABLE(x) ((x) != CAPS_LOCK && (x) != UP_ARROW && (x) != DOWN_ARROW && (x) != LEFT_ARROW && (x) != RIGHT_ARROW && (x) != ALT )
 
 #define IS_ALPHA(x) ( ( (x) >='a' && (x) <= 'z') || ( (x)>='A' && (x) <= 'Z') ) 
 

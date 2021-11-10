@@ -13,4 +13,6 @@ void keyboardDriver(uint64_t * stack);
 int readFromKeyboard(char * buf, uint64_t count, int ascii);
 void set_kb_target(int * var);
 
+void overwriteRegs();
+
 #endif

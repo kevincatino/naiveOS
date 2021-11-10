@@ -80,6 +80,8 @@ static int getChar(unsigned int ascii) {
     int a;
          for(int i=0 ; i<1 ; i++) {
           a = kb_read();
+          if (a == ALT)
+            overwriteRegs();
           if (ascii && !PRINTABLE(a))
                i--;
      }
