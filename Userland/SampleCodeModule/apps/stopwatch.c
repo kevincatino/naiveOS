@@ -1,4 +1,4 @@
-#include "stopWatch.h"
+#include "stopwatch.h"
 
 static long tickss;
 static long startTicks;
